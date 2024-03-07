@@ -1,0 +1,13 @@
+{
+    "exclude": ["./tests", "./node_modules", "./dist"],
+    "compilerOptions": {
+      "target": "es2022",
+      "module": "commonjs",
+      "rootDir": "./src",
+      "declaration": true,
+      "outDir": "./dist",
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitReturns": true
+    }
+  }
