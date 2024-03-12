@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Trabajo grupal de la asignatura",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "start": "tsc-watch --onSuccess \"node dist/main.js\" ",
         "doc": "typedoc",
@@ -34,6 +35,7 @@
     },
     "dependencies": {
         "@types/node": "^20.11.20",
+        "lodash": "^4.17.21",
         "lowdb": "^1.0.0",
         "prompt-sync": "^4.2.0"
     }
