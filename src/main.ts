@@ -1,7 +1,7 @@
-import * as inquirer from "inquirer";
-import * as lowdb from "lowdb";
-import * as FileSync from "lowdb/adapters/FileSync";
-import { Stock } from "./stock";
+import inquirer from "inquirer";
+import lowdb from "lowdb";
+import FileSync from "lowdb/adapters/FileSync.js";
+import { Stock } from "./stock.js";
 
 async function main() {
   const adapter = new FileSync("db.json");
@@ -16,7 +16,7 @@ async function main() {
     message: "Choose operation:",
     choices: [
       "Add Furniture",
-      "Search Furniture",
+      "Delete Furniture",
       "Update Furniture",
       "Search Furniture",
     ], // Añadir las de clientes y proveedores
