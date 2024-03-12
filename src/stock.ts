@@ -1,9 +1,9 @@
-import * as inquirer from "inquirer";
-import * as lowdb from "lowdb";
-import * as FileSync from "lowdb/adapters/FileSync";
-import { Furniture } from "./interfaces/furniture";
-import { Supplier } from "./interfaces/supplier";
-import { Customer } from "./interfaces/customer";
+import inquirer from "inquirer";
+import lowdb from "lowdb";
+import FileSync from "lowdb/adapters/FileSync.js";
+import { Furniture } from "./interfaces/furniture.js";
+import { Supplier } from "./interfaces/supplier.js";
+import { Customer } from "./interfaces/customer.js";
 
 /**
  * Clase que maneja el stock de muebles
@@ -39,7 +39,9 @@ export class Stock {
       ...furnitureData,
     };
     this.furniture.push(furniture);
-    this.db.get("furniture").value().push(furniture).write();
+    this.db.update("furniture", (existingFurniture: Furniture[]) => {
+      return [...existingFurniture, furniture];
+    }).write();
   }
 
   /**
