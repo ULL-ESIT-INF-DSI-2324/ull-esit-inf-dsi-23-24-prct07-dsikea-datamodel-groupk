@@ -53,7 +53,11 @@ export class Stock {
       name: "id",
       message: "Enter furniture ID to delete:",
     });
-    this.db.get("furniture").value().remove({ id: furnitureId.id }).write();
+    this.db.update("furniture", (existingFurniture: Furniture[]) => {
+      return existingFurniture.filter((element) => {
+        return element.id !== furnitureId.id;
+      })
+    }).write();
   }
 
   /**
@@ -84,20 +88,21 @@ export class Stock {
       },
       { type: "number", name: "price", message: "Enter new furniture price:" },
     ]);
-    this.db
-      .get("furniture")
-      .value()
-      .find({ id: furnitureId.id })
-      .assign(newData)
-      .write();
+    newData.id = furnitureId.id;
+    this.db.update("furniture", (existingFurniture: Furniture[]) => {
+      existingFurniture.forEach((element, index) => {
+        if (element.id == furnitureId.id) existingFurniture[index] = newData;
+      })
+      return existingFurniture;
+    }).write();
   }
 
   /**
    * Función que busca según el criterio elegido
    */
   private searchFurnitureBy(filter: string, value: string) {
-    return this.furniture.filter((f) =>
-      f[filter].toLowerCase().includes(value.toLowerCase()),
+    return this.db.get("furniture").value().filter((f) =>
+      f.name.toLowerCase().includes(value.toLowerCase()),
     );
   }
 
