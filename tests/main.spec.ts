@@ -7,6 +7,8 @@ import { Supplier } from '../src/interfaces/supplier.js';
 import { Customer } from '../src/interfaces/customer.js';
 import * as lowdb from 'lowdb';
 
-describe('Stock Management', () => {
-
+describe('Initial test', () => {
+    it('should pass', () => {
+        expect(true).to.equal(true);
+    });
 });
