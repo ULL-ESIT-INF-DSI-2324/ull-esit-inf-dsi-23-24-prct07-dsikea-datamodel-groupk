@@ -101,9 +101,15 @@ export class Stock {
    * Función que busca según el criterio elegido
    */
   private searchFurnitureBy(filter: string, value: string) {
-    return this.db.get("furniture").value().filter((f) =>
-      f.name.toLowerCase().includes(value.toLowerCase()),
-    );
+    const regex = new RegExp(value, "i");
+    return this.db
+      .get("furniture")
+      .value()
+      .filter((furniture) => {
+        return (
+          regex.test(furniture.name) || regex.test(furniture.description)
+        );
+      });
   }
 
   /**
@@ -127,4 +133,181 @@ export class Stock {
   }
 
   // Faltan los métodos add, remove, update y search para clientes y proveedores
+
+  // --------------------------PROVEEDORES---------------------------------
+  async addSupplier() {
+    const supplierData = await inquirer.prompt([
+      { type: "input", name: "name", message: "Enter supplier name:" },
+      {
+        type: "input",
+        name: "contact",
+        message: "Enter supplier contact:",
+      },
+      { type: "input", name: "address", message: "Enter supplier address:" },
+    ]);
+    const supplier: Supplier = {
+      id: Date.now().toString(),
+      ...supplierData,
+    };
+    this.suppliers.push(supplier);
+    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
+      return [...existingSuppliers, supplier];
+    }).write();
+  }
+
+  async deleteSupplier() {
+    const supplierId = await inquirer.prompt({
+      type: "input",
+      name: "id",
+      message: "Enter supplier ID to delete:",
+    });
+    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
+      return existingSuppliers.filter((element) => {
+        return element.id !== supplierId.id;
+      })
+    }).write();
+  }
+
+  async searchSupplier() {
+    const searchCriteria = await inquirer.prompt([
+      {
+        type: "list",
+        name: "filter",
+        message: "Choose search filter:",
+        choices: ["name", "contact", "address"],
+      },
+      { type: "input", name: "value", message: "Enter search value:" },
+    ]);
+    const filteredSuppliers = this.searchSupplierBy(
+      searchCriteria.filter,
+      searchCriteria.value,
+    );
+    console.log(filteredSuppliers);
+  }
+
+  private searchSupplierBy(filter: string, value: string) {
+    const regex = new RegExp(value, "i");
+    return this.db
+      .get("suppliers")
+      .value()
+      .filter((supplier) => {
+        return (
+          regex.test(supplier.name) ||
+          regex.test(supplier.contact) ||
+          regex.test(supplier.address)
+        );
+      });
+  }
+
+  async updateSupplier() {
+    const supplierId = await inquirer.prompt({
+      type: "input",
+      name: "id",
+      message: "Enter supplier ID to update:",
+    });
+  
+    const newData = await inquirer.prompt([
+      { type: "input", name: "name", message: "Enter new supplier name:" },
+      { type: "input", name: "contact", message: "Enter new supplier contact:" },
+      { type: "input", name: "address", message: "Enter new supplier address:" },
+    ]);
+  
+    newData.id = supplierId.id;
+    
+    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
+      existingSuppliers.forEach((element, index) => {
+        if (element.id === supplierId.id) existingSuppliers[index] = newData;
+      });
+      return existingSuppliers;
+    }).write();
+  }
+  
+  // --------------------------PROVEEDORES---------------------------------
+  async addCustomer() {
+    const customerData = await inquirer.prompt([
+      { type: "input", name: "name", message: "Enter customer name:" },
+      {
+        type: "input",
+        name: "contact",
+        message: "Enter customer contact:",
+      },
+      { type: "input", name: "address", message: "Enter customer address:" },
+    ]);
+    const customer: Customer = {
+      id: Date.now().toString(),
+      ...customerData,
+    };
+    this.customers.push(customer);
+    this.db.update("customers", (existingCustomers: Customer[]) => {
+      return [...existingCustomers, customer];
+    }).write();
+  }
+
+  async deleteCustomer() {
+    const customerId = await inquirer.prompt({
+      type: "input",
+      name: "id",
+      message: "Enter customer ID to delete:",
+    });
+    this.db.update("customers", (existingCustomers: Customer[]) => {
+      return existingCustomers.filter((element) => {
+        return element.id !== customerId.id;
+      })
+    }).write();
+  }
+
+  async searchCustomer() {
+    const searchCriteria = await inquirer.prompt([
+      {
+        type: "list",
+        name: "filter",
+        message: "Choose search filter:",
+        choices: ["name", "contact", "address"],
+      },
+      { type: "input", name: "value", message: "Enter search value:" },
+    ]);
+    const filteredCustomers = this.searchCustomerBy(
+      searchCriteria.filter,
+      searchCriteria.value
+    );
+    console.log(filteredCustomers);
+  }
+  
+  private searchCustomerBy(filter: string, value: string) {
+    const regex = new RegExp(value, "i");
+    return this.db
+      .get("customers")
+      .value()
+      .filter((customer) => {
+        return (
+          regex.test(customer.name) ||
+          regex.test(customer.contact) ||
+          regex.test(customer.address)
+        );
+      });
+  }
+
+  async updateCustomer() {
+    const customerId = await inquirer.prompt({
+      type: "input",
+      name: "id",
+      message: "Enter customer ID to update:",
+    });
+  
+    const newData = await inquirer.prompt([
+      { type: "input", name: "name", message: "Enter new customer name:" },
+      { type: "input", name: "contact", message: "Enter new customer contact:" },
+      { type: "input", name: "address", message: "Enter new customer address:" },
+    ]);
+  
+    newData.id = customerId.id;
+    
+    this.db.update("customers", (existingCustomers: Customer[]) => {
+      existingCustomers.forEach((element, index) => {
+        if (element.id === customerId.id) existingCustomers[index] = newData;
+      });
+      return existingCustomers;
+    }).write();
+  }
+  
 }

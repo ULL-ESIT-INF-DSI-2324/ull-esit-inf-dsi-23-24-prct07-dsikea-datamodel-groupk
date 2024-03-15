@@ -1,5 +1,36 @@
 {
-  "furniture": [],
-  "suppliers": [],
-  "customers": []
+  "furniture": [
+    {
+      "id": "1710514305805",
+      "name": "X",
+      "description": "X",
+      "material": "X",
+      "dimensions": "1",
+      "price": 2
+    },
+    {
+      "name": "SillaTest",
+      "description": "Silla verde grande",
+      "material": "Madera",
+      "dimensions": "100x100",
+      "price": 20,
+      "id": "1710514597763"
+    }
+  ],
+  "suppliers": [
+    {
+      "name": "Z",
+      "contact": "Z",
+      "address": "Z",
+      "id": "1710514408739"
+    }
+  ],
+  "customers": [
+    {
+      "name": "Y",
+      "contact": "Y",
+      "address": "Y",
+      "id": "1710514370392"
+    }
+  ]
 }
