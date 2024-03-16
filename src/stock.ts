@@ -43,6 +43,7 @@ export class Stock {
         message: "Enter furniture dimensions:",
       },
       { type: "number", name: "price", message: "Enter furniture price:" },
+      { type: "number", name: "quantity", message: "Enter quantity available:" },
       
     ]);
     const furniture: Furniture = {
@@ -100,6 +101,7 @@ export class Stock {
         message: "Enter new furniture dimensions:",
       },
       { type: "number", name: "price", message: "Enter new furniture price:" },
+      { type: "number", name: "quantity", message: "Enter quantity available:" },
     ]);
     newData.id = furnitureId.id;
     this.db
@@ -164,23 +166,25 @@ export class Stock {
   async addSupplier() {
     const supplierData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter supplier name:" },
-      {
-        type: "input",
-        name: "contact",
-        message: "Enter supplier contact:",
-      },
+      { type: "input", name: "contact", message: "Enter supplier contact:" },
       { type: "input", name: "address", message: "Enter supplier address:" },
     ]);
-    const supplier: Supplier = {
-      id: Date.now().toString(),
-      ...supplierData,
-    };
-    this.suppliers.push(supplier);
-    this.db
-      .update("suppliers", (existingSuppliers: Supplier[]) => {
-        return [...existingSuppliers, supplier];
-      })
-      .write();
+  
+    const existingSupplier = this.suppliers.find((s) => s.name === supplierData.name && s.contact === supplierData.contact && s.address === supplierData.address);
+  if (existingSupplier) {
+    console.log("Supplier already exists.");
+    return;
+  }
+
+  const supplier: Supplier = {
+    id: Date.now().toString(),
+    ...supplierData,
+  };
+
+  this.suppliers.push(supplier);
+  this.db
+  .set("suppliers", this.suppliers)
+  .write();
   }
 
   /**
@@ -276,7 +280,7 @@ export class Stock {
       })
       .write();
   }
-  //----------------------------------CUESTOMER-----------------------------------
+  //----------------------------------CUSTOMER-----------------------------------
   /**
    * Métodos para los clientes
    */
@@ -289,22 +293,28 @@ export class Stock {
   async addCustomer() {
     const customerData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter customer name:" },
-      {
-        type: "input",
-        name: "contact",
-        message: "Enter customer contact:",
-      },
+      { type: "input", name: "contact", message: "Enter customer contact:" },
       { type: "input", name: "address", message: "Enter customer address:" },
     ]);
+  
+    // Verificar si ya existe un cliente con los mismos detalles
+    const existingCustomer = this.customers.find((c) => c.name === customerData.name && c.contact === customerData.contact && c.address === customerData.address);
+    if (existingCustomer) {
+      console.log("Customer already exists.");
+      return;
+    }
+  
+    // Crear un nuevo cliente y agregarlo a la lista de clientes
     const customer: Customer = {
       id: Date.now().toString(),
       ...customerData,
     };
+  
     this.customers.push(customer);
+  
+    // Actualizar la lista de clientes en la base de datos con la lista actualizada
     this.db
-      .update("customers", (existingCustomers: Customer[]) => {
-        return [...existingCustomers, customer];
-      })
+      .set("customers", this.customers)
       .write();
   }
 
@@ -405,6 +415,7 @@ export class Stock {
   //------------------------------------------------FUNCIONALIDADES------------------------------------------------------
   //----------------------TRANSACCIONES-------------------
 
+  //----------------------CLIENTES------------------------
   // Método para registrar una venta a un cliente
   async registerSale(customer: Customer, furnitureNames: string[]) {
     const missingFurniture: string[] = [];
@@ -414,9 +425,12 @@ export class Stock {
     // Verificar si los muebles están disponibles en el stock
     for (const furnitureName of furnitureNames) {
       const furniture = this.furniture.find((f) => f.name === furnitureName);
-      if (furniture) {
+      if (furniture && furniture.quantity > 0) {
         soldFurniture.push(furniture);
         totalPrice += furniture.price;
+        
+        // Disminuir la cantidad de muebles disponibles
+        furniture.quantity -= 1;
       } else {
         missingFurniture.push(furnitureName);
       }
@@ -445,53 +459,56 @@ export class Stock {
       return transactions;
     }).write();
   }
+
+  //----------------------PROVEEDORES------------------------
   // Método para registrar una compra a un proveedor
-  async registerPurchase(supplier: Supplier, furnitureNames: string[], amount: number) {
-    const missingFurniture: string[] = [];
-    const purchasedFurniture: Furniture[] = [];
-  
-    // Verificar si los muebles están disponibles en el stock
-    for (const furnitureName of furnitureNames) {
-      const furniture = this.furniture.find((f) => f.name === furnitureName);
-      if (furniture) {
-        purchasedFurniture.push(furniture);
-      } else {
-        missingFurniture.push(furnitureName);
-      }
+  async registerPurchase(supplier: Supplier) {
+    const purchasedFurnitureData = await inquirer.prompt([
+      { type: "input", name: "name", message: "Enter furniture name:" },
+      { type: "number", name: "quantity", message: "Enter quantity purchased:" },
+      { type: "number", name: "price", message: "Enter purchase price per unit:" },
+    ]);
+
+    const purchasedFurniture: Furniture = {
+      id: Date.now().toString(),
+      ...purchasedFurnitureData,
+    };
+
+    const existingFurniture = this.furniture.find((f) => f.name === purchasedFurniture.name);
+    if (existingFurniture) {
+      existingFurniture.quantity += purchasedFurniture.quantity;
+    } else {
+      this.furniture.push(purchasedFurniture);
     }
-  
-    // Si algunos muebles no están disponibles, imprimir un mensaje y salir del método
-    if (missingFurniture.length > 0) {
-      console.log(`The following furniture is not available: ${missingFurniture.join(", ")}`);
-      return;
-    }
-  
-    // Crear objeto de transacción de compra
+
     const purchaseTransaction = {
       date: new Date(),
       supplier,
       furniture: purchasedFurniture,
-      amount,
+      totalPrice: purchasedFurniture.quantity * purchasedFurniture.price,
     };
-  
-    // Agregar la transacción de compra a la base de datos
-    this.db.update('purchaseTransactions', (transactions: any[]) => {
+
+    this.db.update("purchaseTransactions", (transactions: any[]) => {
       if (!transactions) {
         transactions = [];
       }
       transactions.push(purchaseTransaction);
       return transactions;
     }).write();
-  }
-  // Método que devuelve el historial completo de transacciones
-
-async getTransactionHistory() {
-  const salesTransactions = this.db.get('salesTransactions').value();
-  const purchaseTransactions = this.db.get('purchaseTransactions').value();
-  return {
-    sales: salesTransactions,
-    purchases: purchaseTransactions
-  };
 }
+  
 
+
+  //----------------------HISTORY------------------------
+  // Método que devuelve el historial completo de transacciones
+  async getTransactionHistory() {
+    const salesTransactions = this.db.get('salesTransactions').value();
+    const purchaseTransactions = this.db.get('purchaseTransactions').value();
+    return {
+      sales: salesTransactions,
+      purchases: purchaseTransactions
+    };
+  }
+
+  //----------------------INFORMES------------------------
 }

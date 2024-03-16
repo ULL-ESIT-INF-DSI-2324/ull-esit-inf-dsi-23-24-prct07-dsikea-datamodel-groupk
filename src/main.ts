@@ -162,20 +162,7 @@ async function transactionMenu(stock: Stock) {
         choices: suppliers.map((supplier) => ({ name: supplier.name, value: supplier })),
       });
   
-      // Obtener información sobre los muebles comprados y el monto de la compra
-      const purchasedFurniture = await inquirer.prompt({
-        type: "input",
-        name: "purchasedFurniture",
-        message: "Enter purchased furniture (name):",
-      });
-  
-      const purchaseAmount = await inquirer.prompt({
-        type: "number",
-        name: "purchaseAmount",
-        message: "Enter purchase price:",
-      });
-  
-      await stock.registerPurchase(selectedSupplier.supplier, purchasedFurniture.purchasedFurniture.split(','), purchaseAmount.purchaseAmount);
+      await stock.registerPurchase(selectedSupplier.supplier);
       break;
     }
     case "History": {

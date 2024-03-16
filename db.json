@@ -1,20 +1,19 @@
 {
   "furniture": [
     {
-      "id": "1710514305805",
-      "name": "X",
-      "description": "X",
-      "material": "X",
-      "dimensions": "1",
-      "price": 2
-    },
-    {
+      "id": "1710615931554",
       "name": "SillaTest",
       "description": "Silla verde grande",
-      "material": "Madera",
+      "material": "madera",
       "dimensions": "100x100",
       "price": 20,
-      "id": "1710514597763"
+      "quantity": 21
+    },
+    {
+      "id": "1710621853819",
+      "name": "SillaTest2",
+      "quantity": 7,
+      "price": 40
     }
   ],
   "suppliers": [
@@ -23,6 +22,12 @@
       "contact": "Z",
       "address": "Z",
       "id": "1710514408739"
+    },
+    {
+      "id": "1710616284259",
+      "name": "Supplier1",
+      "contact": "contact1",
+      "address": "address1"
     }
   ],
   "customers": [
@@ -31,25 +36,50 @@
       "contact": "Y",
       "address": "Y",
       "id": "1710514370392"
+    },
+    {
+      "id": "1710616121325",
+      "name": "Customer1",
+      "contact": "contact1",
+      "address": "address1"
+    }
+  ],
+  "purchaseTransactions": [
+    {
+      "date": "2024-03-16T19:26:44.299Z",
+      "supplier": {
+        "id": "1710616284259",
+        "name": "Supplier1",
+        "contact": "contact1",
+        "address": "address1"
+      },
+      "furniture": {
+        "id": "1710617204299",
+        "name": "SillaTest",
+        "quantity": 10,
+        "price": 50
+      },
+      "totalPrice": 500
     }
   ],
   "salesTransactions": [
     {
-      "date": "2024-03-16T18:59:14.105Z",
+      "date": "2024-03-16T19:27:30.912Z",
       "customer": {
-        "name": "Y",
-        "contact": "Y",
-        "address": "Y",
-        "id": "1710514370392"
+        "id": "1710616121325",
+        "name": "Customer1",
+        "contact": "contact1",
+        "address": "address1"
       },
       "furniture": [
         {
+          "id": "1710615931554",
           "name": "SillaTest",
           "description": "Silla verde grande",
-          "material": "Madera",
+          "material": "madera",
           "dimensions": "100x100",
           "price": 20,
-          "id": "1710514597763"
+          "quantity": 21
         }
       ],
       "price": 20
