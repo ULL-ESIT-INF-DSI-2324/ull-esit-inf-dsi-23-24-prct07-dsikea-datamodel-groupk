@@ -1,30 +1,24 @@
 {
   "furniture": [
     {
-      "id": "1710615931554",
+      "id": "1710625092153",
       "name": "SillaTest",
       "description": "Silla verde grande",
       "material": "madera",
       "dimensions": "100x100",
       "price": 20,
-      "quantity": 21
+      "quantity": 14
     },
     {
-      "id": "1710621853819",
+      "id": "1710625220756",
       "name": "SillaTest2",
-      "quantity": 7,
-      "price": 40
+      "quantity": 18,
+      "price": 20
     }
   ],
   "suppliers": [
     {
-      "name": "Z",
-      "contact": "Z",
-      "address": "Z",
-      "id": "1710514408739"
-    },
-    {
-      "id": "1710616284259",
+      "id": "1710625026193",
       "name": "Supplier1",
       "contact": "contact1",
       "address": "address1"
@@ -32,57 +26,51 @@
   ],
   "customers": [
     {
-      "name": "Y",
-      "contact": "Y",
-      "address": "Y",
-      "id": "1710514370392"
-    },
-    {
-      "id": "1710616121325",
+      "id": "1710625008007",
       "name": "Customer1",
       "contact": "contact1",
       "address": "address1"
     }
   ],
-  "purchaseTransactions": [
-    {
-      "date": "2024-03-16T19:26:44.299Z",
-      "supplier": {
-        "id": "1710616284259",
-        "name": "Supplier1",
-        "contact": "contact1",
-        "address": "address1"
-      },
-      "furniture": {
-        "id": "1710617204299",
-        "name": "SillaTest",
-        "quantity": 10,
-        "price": 50
-      },
-      "totalPrice": 500
-    }
-  ],
   "salesTransactions": [
     {
-      "date": "2024-03-16T19:27:30.912Z",
+      "date": "2024-03-16T21:39:33.340Z",
       "customer": {
-        "id": "1710616121325",
+        "id": "1710625008007",
         "name": "Customer1",
         "contact": "contact1",
         "address": "address1"
       },
       "furniture": [
         {
-          "id": "1710615931554",
+          "id": "1710625092153",
           "name": "SillaTest",
           "description": "Silla verde grande",
           "material": "madera",
           "dimensions": "100x100",
           "price": 20,
-          "quantity": 21
+          "quantity": 14
         }
       ],
       "price": 20
+    }
+  ],
+  "purchaseTransactions": [
+    {
+      "date": "2024-03-16T21:40:20.756Z",
+      "supplier": {
+        "id": "1710625026193",
+        "name": "Supplier1",
+        "contact": "contact1",
+        "address": "address1"
+      },
+      "furniture": {
+        "id": "1710625220756",
+        "name": "SillaTest2",
+        "quantity": 18,
+        "price": 20
+      },
+      "totalPrice": 360
     }
   ]
 }

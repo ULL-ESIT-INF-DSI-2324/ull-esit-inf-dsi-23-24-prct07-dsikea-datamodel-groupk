@@ -14,7 +14,7 @@ async function main() {
     type: "list",
     name: "category",
     message: "Choose category:",
-    choices: ["Furniture", "Customer", "Supplier", "Transactions"],
+    choices: ["Furniture", "Customer", "Supplier", "Transactions", "Reports"],
   });
 
   switch (category.category) {
@@ -29,6 +29,9 @@ async function main() {
       break;
     case "Transactions":
       await transactionMenu(stock);
+      break;
+    case "Reports":
+      await reportMenu(stock);
       break;
   }
 }
@@ -174,5 +177,38 @@ async function transactionMenu(stock: Stock) {
 }
 }
 
+//-------------------REPORTES----------------------
+async function reportMenu(stock: Stock) {
+  const reportType = await inquirer.prompt({
+    type: "list",
+    name: "reportType",
+    message: "Choose report type:",
+    choices: [
+      "Available Stock by Furniture Name",
+      "Transaction with Highest Amount",
+    ],
+  });
+
+  switch (reportType.reportType) {
+    case "Available Stock by Furniture Name":
+      await generateAvailableStockByFurnitureNameReport(stock);
+      break;
+    case "Transaction with Highest Amount":{
+      const transactionWithHighestAmount = await stock.getTransactionWithHighestAmount();
+      console.log("Transaction with Highest Amount:", transactionWithHighestAmount);
+      break;
+    }
+  }
+}
+
+async function generateAvailableStockByFurnitureNameReport(stock: Stock) {
+  const name = await inquirer.prompt({
+    type: "input",
+    name: "name",
+    message: "Enter furniture name:",
+  });
+  const availableStock = await stock.getAvailableStockByFurnitureName(name.name);
+  console.log("Available stock by furniture name:", availableStock);
+}
 
 main();

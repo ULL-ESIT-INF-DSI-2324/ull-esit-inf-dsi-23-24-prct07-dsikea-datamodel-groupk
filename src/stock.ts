@@ -3,7 +3,7 @@ import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
 import { Furniture } from "./interfaces/furniture.js";
 import { Supplier } from "./interfaces/supplier.js";
-import { Customer } from "./interfaces/customer.js";
+import { Customer, Purchase } from "./interfaces/customer.js";
 import { SaleTransaction, PurchaseTransaction } from "./interfaces/transaction.js";
 
 /**
@@ -511,4 +511,63 @@ export class Stock {
   }
 
   //----------------------INFORMES------------------------
+
+  async getAvailableStockByFurnitureName(name: string) {
+    const furniture = this.furniture.find(f => f.name === name && f.quantity > 0);
+    return furniture;
+  }
+
+
+  async getTransactionWithHighestAmount() {
+    const salesTransactions = await this.getTransactionHistory();
+    
+    if (salesTransactions && salesTransactions.sales && salesTransactions.sales.length > 0) {
+      // Ordenar las transacciones por el importe total en orden descendente
+      const sortedTransactions = salesTransactions.sales.sort((a, b) => b.price - a.price);
+      return sortedTransactions[0];
+    } else {
+      return null;
+    }
+  }
+
+
+  async getCustomerWithHighestSpending() {
+    const customersData: any = this.db.get("customers").value(); // Obtener los datos de los clientes
+  
+    // Verificar si customersData es un array antes de continuar
+    if (Array.isArray(customersData)) {
+      let customerWithHighestSpending: Customer | undefined;
+      let highestSpending = 0;
+  
+      // Iterar sobre los clientes para encontrar el que ha gastado más
+      customersData.forEach((customer: Customer) => {
+        const customerId = customer.id;
+  
+        // Obtener las compras del cliente actual
+        const purchasesData: any = this.db.get("purchases").value(); // Obtener los datos de compras
+  
+        // Verificar si purchasesData es un array antes de intentar filtrarlo
+        if (Array.isArray(purchasesData)) {
+          // Filtrar las compras del cliente actual
+          const customerPurchases = purchasesData.filter((purchase: Purchase) => purchase.customerId === customerId);
+  
+          // Calcular el total gastado por el cliente actual
+          const customerTotalSpending = customerPurchases.reduce((total: number, purchase: Purchase) => total + purchase.amount, 0);
+  
+          // Actualizar el cliente con el gasto más alto si corresponde
+          if (customerTotalSpending > highestSpending) {
+            highestSpending = customerTotalSpending;
+            customerWithHighestSpending = customer;
+          }
+        } else {
+          console.error("No se pudo obtener el array de compras");
+        }
+      });
+  
+      return customerWithHighestSpending;
+    } else {
+      console.error("No se pudo obtener el array de clientes");
+      return undefined;
+    }
+  }
 }

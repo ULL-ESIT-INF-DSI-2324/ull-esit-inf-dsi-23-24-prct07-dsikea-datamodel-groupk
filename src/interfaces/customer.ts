@@ -7,3 +7,9 @@ export interface Customer {
   contact: string;
   address: string;
 }
+
+export interface Purchase {
+  customerId: string;
+  amount: number;
+  // Otros campos relevantes para la compra
+}
