@@ -1,5 +1,11 @@
 {
-  "entryPoints": ["./src/main.js"],
+  "entryPoints":  [
+    "./src/main.ts",
+    "./src/interfaces/customer.ts",
+    "./src/interfaces/furniture.ts",
+    "./src/interfaces/supplier.ts",
+    "./src/stock.ts"
+  ],
 
   "out": "./docs"
 }

@@ -39,13 +39,15 @@ export class Stock {
       ...furnitureData,
     };
     this.furniture.push(furniture);
-    this.db.update("furniture", (existingFurniture: Furniture[]) => {
-      return [...existingFurniture, furniture];
-    }).write();
+    this.db
+      .update("furniture", (existingFurniture: Furniture[]) => {
+        return [...existingFurniture, furniture];
+      })
+      .write();
   }
 
   /**
-   * Función que usa inquirer parqa recibir datos de muebles y borrarlos de la db
+   * Función que usa inquirer para recibir datos de muebles y borrarlos de la db
    */
   async deleteFurniture() {
     const furnitureId = await inquirer.prompt({
@@ -53,11 +55,13 @@ export class Stock {
       name: "id",
       message: "Enter furniture ID to delete:",
     });
-    this.db.update("furniture", (existingFurniture: Furniture[]) => {
-      return existingFurniture.filter((element) => {
-        return element.id !== furnitureId.id;
+    this.db
+      .update("furniture", (existingFurniture: Furniture[]) => {
+        return existingFurniture.filter((element) => {
+          return element.id !== furnitureId.id;
+        });
       })
-    }).write();
+      .write();
   }
 
   /**
@@ -89,12 +93,14 @@ export class Stock {
       { type: "number", name: "price", message: "Enter new furniture price:" },
     ]);
     newData.id = furnitureId.id;
-    this.db.update("furniture", (existingFurniture: Furniture[]) => {
-      existingFurniture.forEach((element, index) => {
-        if (element.id == furnitureId.id) existingFurniture[index] = newData;
+    this.db
+      .update("furniture", (existingFurniture: Furniture[]) => {
+        existingFurniture.forEach((element, index) => {
+          if (element.id == furnitureId.id) existingFurniture[index] = newData;
+        });
+        return existingFurniture;
       })
-      return existingFurniture;
-    }).write();
+      .write();
   }
 
   /**
@@ -106,9 +112,7 @@ export class Stock {
       .get("furniture")
       .value()
       .filter((furniture) => {
-        return (
-          regex.test(furniture.name) || regex.test(furniture.description)
-        );
+        return regex.test(furniture.name) || regex.test(furniture.description);
       });
   }
 
@@ -132,9 +136,13 @@ export class Stock {
     console.log(filteredFurniture);
   }
 
-  // Faltan los métodos add, remove, update y search para clientes y proveedores
+  /**
+   * Métodos para los proveedores
+   */
 
-  // --------------------------PROVEEDORES---------------------------------
+  /**
+   * Método para añadir un proveedor a la db
+   */
   async addSupplier() {
     const supplierData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter supplier name:" },
@@ -150,24 +158,34 @@ export class Stock {
       ...supplierData,
     };
     this.suppliers.push(supplier);
-    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
-      return [...existingSuppliers, supplier];
-    }).write();
+    this.db
+      .update("suppliers", (existingSuppliers: Supplier[]) => {
+        return [...existingSuppliers, supplier];
+      })
+      .write();
   }
 
+  /**
+   * Método para quitar un proveedor de la db
+   */
   async deleteSupplier() {
     const supplierId = await inquirer.prompt({
       type: "input",
       name: "id",
       message: "Enter supplier ID to delete:",
     });
-    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
-      return existingSuppliers.filter((element) => {
-        return element.id !== supplierId.id;
+    this.db
+      .update("suppliers", (existingSuppliers: Supplier[]) => {
+        return existingSuppliers.filter((element) => {
+          return element.id !== supplierId.id;
+        });
       })
-    }).write();
+      .write();
   }
 
+  /**
+   * Método que usa inquirer para buscar un proveedor
+   */
   async searchSupplier() {
     const searchCriteria = await inquirer.prompt([
       {
@@ -185,6 +203,12 @@ export class Stock {
     console.log(filteredSuppliers);
   }
 
+  /**
+   * Método que busca un proveedor según el filtro dado
+   * @param filter Filtro
+   * @param value Valor a buscar
+   * @returns
+   */
   private searchSupplierBy(filter: string, value: string) {
     const regex = new RegExp(value, "i");
     return this.db
@@ -199,30 +223,49 @@ export class Stock {
       });
   }
 
+  /**
+   * Método que actualiza los datos de un proveedor
+   */
   async updateSupplier() {
     const supplierId = await inquirer.prompt({
       type: "input",
       name: "id",
       message: "Enter supplier ID to update:",
     });
-  
+
     const newData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter new supplier name:" },
-      { type: "input", name: "contact", message: "Enter new supplier contact:" },
-      { type: "input", name: "address", message: "Enter new supplier address:" },
+      {
+        type: "input",
+        name: "contact",
+        message: "Enter new supplier contact:",
+      },
+      {
+        type: "input",
+        name: "address",
+        message: "Enter new supplier address:",
+      },
     ]);
-  
+
     newData.id = supplierId.id;
-    
-    this.db.update("suppliers", (existingSuppliers: Supplier[]) => {
-      existingSuppliers.forEach((element, index) => {
-        if (element.id === supplierId.id) existingSuppliers[index] = newData;
-      });
-      return existingSuppliers;
-    }).write();
+
+    this.db
+      .update("suppliers", (existingSuppliers: Supplier[]) => {
+        existingSuppliers.forEach((element, index) => {
+          if (element.id === supplierId.id) existingSuppliers[index] = newData;
+        });
+        return existingSuppliers;
+      })
+      .write();
   }
-  
-  // --------------------------PROVEEDORES---------------------------------
+
+  /**
+   * Métodos para los clientes
+   */
+
+  /**
+   * Método que añade un cliente a la db
+   */
   async addCustomer() {
     const customerData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter customer name:" },
@@ -238,24 +281,34 @@ export class Stock {
       ...customerData,
     };
     this.customers.push(customer);
-    this.db.update("customers", (existingCustomers: Customer[]) => {
-      return [...existingCustomers, customer];
-    }).write();
+    this.db
+      .update("customers", (existingCustomers: Customer[]) => {
+        return [...existingCustomers, customer];
+      })
+      .write();
   }
 
+  /**
+   * Método que quita un cliente de la db
+   */
   async deleteCustomer() {
     const customerId = await inquirer.prompt({
       type: "input",
       name: "id",
       message: "Enter customer ID to delete:",
     });
-    this.db.update("customers", (existingCustomers: Customer[]) => {
-      return existingCustomers.filter((element) => {
-        return element.id !== customerId.id;
+    this.db
+      .update("customers", (existingCustomers: Customer[]) => {
+        return existingCustomers.filter((element) => {
+          return element.id !== customerId.id;
+        });
       })
-    }).write();
+      .write();
   }
 
+  /**
+   * Método que usa inquirer para buscar un cliente
+   */
   async searchCustomer() {
     const searchCriteria = await inquirer.prompt([
       {
@@ -268,11 +321,17 @@ export class Stock {
     ]);
     const filteredCustomers = this.searchCustomerBy(
       searchCriteria.filter,
-      searchCriteria.value
+      searchCriteria.value,
     );
     console.log(filteredCustomers);
   }
-  
+
+  /**
+   * Método que busca los clientes según el filtro dado
+   * @param filter Filtro
+   * @param value Valor a buscar
+   * @returns
+   */
   private searchCustomerBy(filter: string, value: string) {
     const regex = new RegExp(value, "i");
     return this.db
@@ -287,27 +346,39 @@ export class Stock {
       });
   }
 
+  /**
+   * Método que actualiza los datos de un cliente
+   */
   async updateCustomer() {
     const customerId = await inquirer.prompt({
       type: "input",
       name: "id",
       message: "Enter customer ID to update:",
     });
-  
+
     const newData = await inquirer.prompt([
       { type: "input", name: "name", message: "Enter new customer name:" },
-      { type: "input", name: "contact", message: "Enter new customer contact:" },
-      { type: "input", name: "address", message: "Enter new customer address:" },
+      {
+        type: "input",
+        name: "contact",
+        message: "Enter new customer contact:",
+      },
+      {
+        type: "input",
+        name: "address",
+        message: "Enter new customer address:",
+      },
     ]);
-  
+
     newData.id = customerId.id;
-    
-    this.db.update("customers", (existingCustomers: Customer[]) => {
-      existingCustomers.forEach((element, index) => {
-        if (element.id === customerId.id) existingCustomers[index] = newData;
-      });
-      return existingCustomers;
-    }).write();
+
+    this.db
+      .update("customers", (existingCustomers: Customer[]) => {
+        existingCustomers.forEach((element, index) => {
+          if (element.id === customerId.id) existingCustomers[index] = newData;
+        });
+        return existingCustomers;
+      })
+      .write();
   }
-  
 }

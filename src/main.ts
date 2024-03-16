@@ -64,7 +64,12 @@ async function customerMenu(stock: Stock) {
     type: "list",
     name: "operation",
     message: "Choose operation for Customer:",
-    choices: ["Add Customer", "Delete Customer", "Search Customer", "Update Customer"], // Agregamos "Update Customer"
+    choices: [
+      "Add Customer",
+      "Delete Customer",
+      "Search Customer",
+      "Update Customer",
+    ], // Agregamos "Update Customer"
   });
 
   switch (operation.operation) {
@@ -88,7 +93,12 @@ async function supplierMenu(stock: Stock) {
     type: "list",
     name: "operation",
     message: "Choose operation for Supplier:",
-    choices: ["Add Supplier", "Delete Supplier", "Search Supplier", "Update Supplier"], // Agregamos "Update Supplier"
+    choices: [
+      "Add Supplier",
+      "Delete Supplier",
+      "Search Supplier",
+      "Update Supplier",
+    ], // Agregamos "Update Supplier"
   });
 
   switch (operation.operation) {
