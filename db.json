@@ -32,5 +32,27 @@
       "address": "Y",
       "id": "1710514370392"
     }
+  ],
+  "salesTransactions": [
+    {
+      "date": "2024-03-16T18:59:14.105Z",
+      "customer": {
+        "name": "Y",
+        "contact": "Y",
+        "address": "Y",
+        "id": "1710514370392"
+      },
+      "furniture": [
+        {
+          "name": "SillaTest",
+          "description": "Silla verde grande",
+          "material": "Madera",
+          "dimensions": "100x100",
+          "price": 20,
+          "id": "1710514597763"
+        }
+      ],
+      "price": 20
+    }
   ]
 }
