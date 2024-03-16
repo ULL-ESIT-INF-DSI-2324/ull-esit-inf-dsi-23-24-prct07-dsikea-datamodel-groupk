@@ -8,7 +8,7 @@
 
 ## Datos identificativos - Grupo K
 
-- Guillermo Díaz Bricio - alu
+- Guillermo Díaz Bricio - alu0101505688
 - Jóse Miguel Díaz González - alu0101203294
 - Diego Díaz Fernández - alu0101130026
 
