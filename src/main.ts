@@ -40,6 +40,7 @@ async function furnitureMenu(stock: Stock) {
       "Delete Furniture",
       "Update Furniture",
       "Search Furniture",
+      "Stock"
     ],
   });
 
@@ -56,6 +57,9 @@ async function furnitureMenu(stock: Stock) {
     case "Search Furniture":
       await stock.searchFurniture();
       break;
+    case "Stock":
+      console.log("Total furniture count:", stock.getFurnitureCount());
+      break;
   }
 }
 
@@ -69,7 +73,7 @@ async function customerMenu(stock: Stock) {
       "Delete Customer",
       "Search Customer",
       "Update Customer",
-    ], // Agregamos "Update Customer"
+    ],
   });
 
   switch (operation.operation) {
@@ -82,7 +86,7 @@ async function customerMenu(stock: Stock) {
     case "Search Customer":
       await stock.searchCustomer();
       break;
-    case "Update Customer": // Nuevo caso para actualizar cliente
+    case "Update Customer":
       await stock.updateCustomer();
       break;
   }
@@ -98,7 +102,7 @@ async function supplierMenu(stock: Stock) {
       "Delete Supplier",
       "Search Supplier",
       "Update Supplier",
-    ], // Agregamos "Update Supplier"
+    ],
   });
 
   switch (operation.operation) {

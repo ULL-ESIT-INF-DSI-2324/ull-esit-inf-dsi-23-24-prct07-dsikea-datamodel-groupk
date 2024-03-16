@@ -12,9 +12,14 @@ export class Stock {
   private furniture: Furniture[] = [];
   private suppliers: Supplier[] = [];
   private customers: Customer[] = [];
+  
 
-  constructor(private db: lowdb.LowdbSync<any>) {}
-
+  constructor(private db: lowdb.LowdbSync<any>) {
+    this.furniture = db.get("furniture").value();
+    this.suppliers = db.get("suppliers").value();
+    this.customers = db.get("customers").value();
+  }
+  
   /**
    * Función que usa inquirer para recibir datos de muebles y añadirlos a la db
    */
@@ -33,6 +38,7 @@ export class Stock {
         message: "Enter furniture dimensions:",
       },
       { type: "number", name: "price", message: "Enter furniture price:" },
+      
     ]);
     const furniture: Furniture = {
       id: Date.now().toString(),
@@ -40,9 +46,7 @@ export class Stock {
     };
     this.furniture.push(furniture);
     this.db
-      .update("furniture", (existingFurniture: Furniture[]) => {
-        return [...existingFurniture, furniture];
-      })
+    .update("furniture", () => this.furniture)
       .write();
   }
 
@@ -137,7 +141,13 @@ export class Stock {
   }
 
   /**
-   * Métodos para los proveedores
+   * Función que devuelve la cantidad de muebles en stock
+   */
+  getFurnitureCount() {
+    return this.furniture.length;
+  }
+  /**
+   * ----------------------------------------Métodos para los proveedores---------------------------------------------------------
    */
 
   /**
@@ -381,4 +391,7 @@ export class Stock {
       })
       .write();
   }
+
+  //------------------------------------------------FUNCIONALIDADES------------------------------------------------------
+
 }
