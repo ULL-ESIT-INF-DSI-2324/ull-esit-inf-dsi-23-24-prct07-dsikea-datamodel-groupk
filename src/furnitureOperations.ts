@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Furniture } from "./interfaces/furniture.js";
 import { Operations } from "./interfaces/operations.js";
-import inquirer from "inquirer";
 import lowdb from "lowdb";
 
 export class FurnitureOperations implements Operations {

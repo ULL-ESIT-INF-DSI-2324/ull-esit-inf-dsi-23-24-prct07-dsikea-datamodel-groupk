@@ -4,13 +4,18 @@ import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
 import { FurnitureOperations } from "./furnitureOperations.js";
 import { Stock } from "./stock.js";
+import { CustomerOperations } from "./customerOperations.js";
+import { SupplierOperations } from "./supplierOperations.js";
 
 async function main() {
   const adapter = new FileSync("db.json");
   const db = lowdb(adapter);
   db.defaults({ furniture: [], suppliers: [], customers: [] }).write();
-
+  
   const stock = new Stock(db);
+  const myFurnitureOperations = new FurnitureOperations(db);
+  const myCustomerOperations = new CustomerOperations(db);
+  const mySupplierOperations = new SupplierOperations(db);
 
   const category = await inquirer.prompt({
     type: "list",
@@ -22,17 +27,16 @@ async function main() {
   switch (category.category) {
     case "Furniture":
       // eslint-disable-next-line no-case-declarations
-      const myOperations = new FurnitureOperations(db);
-      await furnitureMenu(myOperations);
+      await furnitureMenu(myFurnitureOperations);
       break;
     case "Customer":
-      await customerMenu(stock);
+      await customerMenu(myCustomerOperations);
       break;
     case "Supplier":
-      await supplierMenu(stock);
+      await supplierMenu(mySupplierOperations);
       break;
     case "Transactions":
-      await transactionMenu(stock);
+      await transactionMenu(stock, myCustomerOperations, mySupplierOperations);
       break;
     case "Reports":
       await reportMenu(stock);
@@ -90,7 +94,7 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
         name: "id",
         message: "Enter furniture ID to update:",
       });
-      const newData = await inquirer.prompt([
+      const newFurnitureData = await inquirer.prompt([
         { type: "input", name: "name", message: "Enter new furniture name:" },
         {
           type: "input",
@@ -110,11 +114,11 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
         { type: "number", name: "price", message: "Enter new furniture price:" },
         { type: "number", name: "quantity", message: "Enter quantity available:" },
       ]);
-      newData.id = furnitureToUpdate.id;
-      await myOperations.update(newData);
+      newFurnitureData.id = furnitureToUpdate.id;
+      await myOperations.update(newFurnitureData);
       break;
     case "Search Furniture":
-      const searchCriteria = await inquirer.prompt([
+      const searchFurnitureCriteria = await inquirer.prompt([
         {
           type: "list",
           name: "filter",
@@ -123,7 +127,7 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
         },
         { type: "input", name: "value", message: "Enter search value:" },
       ]);
-      await myOperations.search(searchCriteria.value);
+      await myOperations.search(searchFurnitureCriteria.value);
       break;
     case "Stock":
       console.log("Total furniture count:", myOperations.getCount());
@@ -131,7 +135,7 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
   }
 }
 
-async function customerMenu(stock: Stock) {
+async function customerMenu(myOperations: CustomerOperations) {
   const operation = await inquirer.prompt({
     type: "list",
     name: "operation",
@@ -146,21 +150,53 @@ async function customerMenu(stock: Stock) {
 
   switch (operation.operation) {
     case "Add Customer":
-      await stock.addCustomer();
+      const customerData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter customer name:" },
+        { type: "input", name: "contact", message: "Enter customer contact:" },
+        { type: "input", name: "address", message: "Enter customer address:" },
+      ]);
+      customerData.id = Date.now().toString();
+      await myOperations.add(customerData);
       break;
     case "Delete Customer":
-      await stock.deleteCustomer();
+      const customerToDelete = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter customer ID to delete:",
+      });
+      await myOperations.delete(customerToDelete.id);
       break;
+
     case "Search Customer":
-      await stock.searchCustomer();
+      const searchCustomerCriteria = await inquirer.prompt([
+        {
+          type: "list",
+          name: "filter",
+          message: "Choose search filter:",
+          choices: ["name", "contact", "address"],
+        },
+        { type: "input", name: "value", message: "Enter search value:" },
+      ]);
+      await myOperations.search(searchCustomerCriteria.value);
       break;
     case "Update Customer":
-      await stock.updateCustomer();
+      const customerToUpdate = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter customer ID to update:",
+      });
+      const newCustomerData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter new customer name:" },
+        { type: "input", name: "contact", message: "Enter new customer contact:" },
+        { type: "input", name: "address", message: "Enter new customer address:" },
+      ]);
+      newCustomerData.id = customerToUpdate.id;
+      await myOperations.update(newCustomerData);
       break;
   }
 }
 
-async function supplierMenu(stock: Stock) {
+async function supplierMenu(myOperations: SupplierOperations) {
   const operation = await inquirer.prompt({
     type: "list",
     name: "operation",
@@ -175,22 +211,62 @@ async function supplierMenu(stock: Stock) {
 
   switch (operation.operation) {
     case "Add Supplier":
-      await stock.addSupplier();
+      const supplierData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter supplier name:" },
+        { type: "input", name: "contact", message: "Enter supplier contact:" },
+        { type: "input", name: "address", message: "Enter supplier address:" },
+      ]);
+      supplierData.id = Date.now().toString();
+      await myOperations.add(supplierData);
       break;
     case "Delete Supplier":
-      await stock.deleteSupplier();
+      const supplierToDelete = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter supplier ID to delete:",
+      });
+      await myOperations.delete(supplierToDelete.id);
       break;
     case "Search Supplier":
-      await stock.searchSupplier();
+      const searchSupplierCriteria = await inquirer.prompt([
+        {
+          type: "list",
+          name: "filter",
+          message: "Choose search filter:",
+          choices: ["name", "contact", "address"],
+        },
+        { type: "input", name: "value", message: "Enter search value:" },
+      ]);
+      await myOperations.search(searchSupplierCriteria.value);
       break;
     case "Update Supplier":
-      await stock.updateSupplier();
+      const supplierToUpdate = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter supplier ID to update:",
+      });
+  
+      const newSupplierData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter new supplier name:" },
+        {
+          type: "input",
+          name: "contact",
+          message: "Enter new supplier contact:",
+        },
+        {
+          type: "input",
+          name: "address",
+          message: "Enter new supplier address:",
+        },
+      ]);
+      newSupplierData.id = supplierToUpdate.id;
+      await myOperations.update(newSupplierData);
       break;
   }
 
 }
 //-------------------TRANSACCIONES----------------------
-async function transactionMenu(stock: Stock) {
+async function transactionMenu(stock: Stock, myCustomerOperations: CustomerOperations, mySupplierOperations: SupplierOperations) {
   const transactionType = await inquirer.prompt({
     type: "list",
     name: "transactionType",
@@ -200,7 +276,7 @@ async function transactionMenu(stock: Stock) {
 
   switch (transactionType.transactionType) {
     case "Sale": {
-      const customers = stock.getCustomers();
+      const customers = myCustomerOperations.getCustomers();
       const selectedCustomer = await inquirer.prompt({
         type: "list",
         name: "customer",
@@ -219,7 +295,7 @@ async function transactionMenu(stock: Stock) {
       break;
     }
     case "Purchase": {
-      const suppliers = stock.getSuppliers();
+      const suppliers = mySupplierOperations.getSuppliers();
       const selectedSupplier = await inquirer.prompt({
         type: "list",
         name: "supplier",
