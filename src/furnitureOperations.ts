@@ -34,13 +34,13 @@ export class FurnitureOperations implements Operations {
       .write();
   }
 
-  async search(searchCriteria: string) {
-    const filteredFurniture = this.searchBy(
-      searchCriteria
-    );
-    //console.log(filteredFurniture);
-    return filteredFurniture;
-  }
+  async search(searchCriteria: string, isTestEnvironment: boolean = false) {
+    const filteredSupplier = this.searchBy(searchCriteria);
+    if (!isTestEnvironment) {
+        console.log(filteredSupplier);
+    }
+    return filteredSupplier;
+}
 
   searchBy(value: string) {
     const regex = new RegExp(value, "i");

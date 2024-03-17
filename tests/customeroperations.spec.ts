@@ -122,19 +122,19 @@ describe('CustomerOperations', () => {
         }
     
         // Realizar la búsqueda por nombre
-        const searchResultByName = await customerOperations.search('Pedro');
+        const searchResultByName = await customerOperations.search('Pedro', true);
         expect(searchResultByName).to.not.be.undefined;
         expect(searchResultByName).to.be.an('array');
         expect(searchResultByName.some(customer => customer.name === 'Pedro')).to.be.true;
     
         // Realizar la búsqueda por contacto
-        const searchResultByContact = await customerOperations.search('sandr78@example.com');
+        const searchResultByContact = await customerOperations.search('sandr78@example.com', true);
         expect(searchResultByContact).to.not.be.undefined;
         expect(searchResultByContact).to.be.an('array');
         expect(searchResultByContact.some(customer => customer.contact === 'sandr78@example.com')).to.be.true;
     
         // Realizar la búsqueda por dirección
-        const searchResultByAddress = await customerOperations.search('San Cristóbal de La Laguna');
+        const searchResultByAddress = await customerOperations.search('San Cristóbal de La Laguna', true);
         expect(searchResultByAddress).to.not.be.undefined;
         expect(searchResultByAddress).to.be.an('array');
         expect(searchResultByAddress.some(customer => customer.address === 'San Cristóbal de La Laguna')).to.be.true;

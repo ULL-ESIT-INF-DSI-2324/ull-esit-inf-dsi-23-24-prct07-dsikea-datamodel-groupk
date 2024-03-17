@@ -1,0 +1,40 @@
+{
+  "suppliers": [
+    {
+      "id": "256",
+      "name": "Supplier 1",
+      "contact": "supplier1@example.com",
+      "address": "La laguna, Tenerife"
+    },
+    {
+      "id": "5989",
+      "name": "Updated Supplier 3",
+      "contact": "updatedsupplier3@example.com",
+      "address": "Santa Ursula, Tenerife"
+    },
+    {
+      "id": "789",
+      "name": "TestDuplicado",
+      "contact": "duplicate@example.com",
+      "address": "Duplicate Supplier Address"
+    },
+    {
+      "id": "8",
+      "name": "Juan",
+      "contact": "juansupplier@example.com",
+      "address": "La Orotava"
+    },
+    {
+      "id": "9",
+      "name": "Maria",
+      "contact": "mariasupplier@example.com",
+      "address": "Santa Cruz de la Palma"
+    },
+    {
+      "id": "10",
+      "name": "Carlos",
+      "contact": "carlossupplier@example.com",
+      "address": "San Cristóbal de La Laguna"
+    }
+  ]
+}

@@ -150,13 +150,13 @@ describe('FurnitureOperations', () => {
         await furnitureOperations.add(newFurniture);
     
         // Realizar la búsqueda por nombre
-        const searchResult = await furnitureOperations.search('SillaSearch');
+        const searchResult = await furnitureOperations.search('SillaSearch', true);
         expect(searchResult).to.not.be.undefined;
         expect(searchResult).to.be.an('array');
         expect(searchResult.some(furniture => furniture.name === 'SillaSearch')).to.be.true;
 
         // Realizar la búsqueda por descripción
-        const searchResultByDescription = await furnitureOperations.search('cómoda');
+        const searchResultByDescription = await furnitureOperations.search('cómoda', true);
         expect(searchResultByDescription).to.not.be.undefined;
         expect(searchResultByDescription).to.be.an('array');
         expect(searchResultByDescription.some(furniture => furniture.description.includes('cómoda'))).to.be.true;

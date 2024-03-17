@@ -39,9 +39,12 @@ export class CustomerOperations implements Operations {
       .write();
   }
 
-  async search(searchCriteria: string) {
-    const filteredCustomers = this.searchBy(searchCriteria);
-    return filteredCustomers;
+  async search(searchCriteria: string, isTestEnvironment: boolean = false) {
+    const filteredCustomer = this.searchBy(searchCriteria);
+    if (!isTestEnvironment) {
+        console.log(filteredCustomer);
+    }
+    return filteredCustomer;
 }
 
   searchBy(value: string) {

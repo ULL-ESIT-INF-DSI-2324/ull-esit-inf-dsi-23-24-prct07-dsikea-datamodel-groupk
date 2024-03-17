@@ -39,22 +39,23 @@ export class SupplierOperations implements Operations {
       .write();
   }
 
-  async search(searchCriteria: string) {
-    const filteredSupplier = this.searchBy(
-      searchCriteria
-    );
-    console.log(filteredSupplier);
-  }
+  async search(searchCriteria: string, isTestEnvironment: boolean = false) {
+    const filteredSupplier = this.searchBy(searchCriteria);
+    if (!isTestEnvironment) {
+        console.log(filteredSupplier);
+    }
+    return filteredSupplier;
+}
 
-  searchBy(value: string) {
-    const regex = new RegExp(value, "i");
-    return this.db
-      .get("suppliers")
-      .value()
-      .filter((Supplier) => {
-        return regex.test(Supplier.name) || regex.test(Supplier.description);
-      });
-  }
+searchBy(value: string) {
+  const regex = new RegExp(value, "i");
+  return this.db
+    .get("suppliers")
+    .value()
+    .filter((supplier) => {
+      return regex.test(supplier.name) || regex.test(supplier.contact) || regex.test(supplier.address);
+    });
+}
 
   getCount() {
     return this.suppliers.length;
