@@ -14,6 +14,15 @@
       "name": "SillaTest2",
       "quantity": 18,
       "price": 20
+    },
+    {
+      "id": "1710682158707",
+      "name": "mesa",
+      "description": "mesa",
+      "material": "fds",
+      "dimensions": "fas",
+      "price": 10,
+      "quantity": 5
     }
   ],
   "suppliers": [

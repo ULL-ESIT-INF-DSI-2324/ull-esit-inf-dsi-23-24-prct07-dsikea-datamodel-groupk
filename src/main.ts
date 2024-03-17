@@ -1,6 +1,8 @@
+/* eslint-disable no-case-declarations */
 import inquirer from "inquirer";
 import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
+import { FurnitureOperations } from "./furnitureOperations.js";
 import { Stock } from "./stock.js";
 
 async function main() {
@@ -19,7 +21,9 @@ async function main() {
 
   switch (category.category) {
     case "Furniture":
-      await furnitureMenu(stock);
+      // eslint-disable-next-line no-case-declarations
+      const myOperations = new FurnitureOperations(db);
+      await furnitureMenu(myOperations);
       break;
     case "Customer":
       await customerMenu(stock);
@@ -36,7 +40,7 @@ async function main() {
   }
 }
 
-async function furnitureMenu(stock: Stock) {
+async function furnitureMenu(myOperations: FurnitureOperations) {
   const operation = await inquirer.prompt({
     type: "list",
     name: "operation",
@@ -49,22 +53,80 @@ async function furnitureMenu(stock: Stock) {
       "Stock"
     ],
   });
-
   switch (operation.operation) {
     case "Add Furniture":
-      await stock.addFurniture();
+      const furnitureData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter furniture name:" },
+        {
+          type: "input",
+          name: "description",
+          message: "Enter furniture description:",
+        },
+        { type: "input", name: "material", message: "Enter furniture material:" },
+        {
+          type: "input",
+          name: "dimensions",
+          message: "Enter furniture dimensions:",
+        },
+        { type: "number", name: "price", message: "Enter furniture price:" },
+        { type: "number", name: "quantity", message: "Enter quantity available:" },
+      ]);
+      furnitureData.id = Date.now().toString();
+      await myOperations.add(furnitureData);
       break;
+
     case "Delete Furniture":
-      await stock.deleteFurniture();
+      const furnitureToDelete = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter furniture ID to delete:",
+      });
+      await myOperations.delete(furnitureToDelete.id);
       break;
+
     case "Update Furniture":
-      await stock.updateFurniture();
+      const furnitureToUpdate = await inquirer.prompt({
+        type: "input",
+        name: "id",
+        message: "Enter furniture ID to update:",
+      });
+      const newData = await inquirer.prompt([
+        { type: "input", name: "name", message: "Enter new furniture name:" },
+        {
+          type: "input",
+          name: "description",
+          message: "Enter new furniture description:",
+        },
+        {
+          type: "input",
+          name: "material",
+          message: "Enter new furniture material:",
+        },
+        {
+          type: "input",
+          name: "dimensions",
+          message: "Enter new furniture dimensions:",
+        },
+        { type: "number", name: "price", message: "Enter new furniture price:" },
+        { type: "number", name: "quantity", message: "Enter quantity available:" },
+      ]);
+      newData.id = furnitureToUpdate.id;
+      await myOperations.update(newData);
       break;
     case "Search Furniture":
-      await stock.searchFurniture();
+      const searchCriteria = await inquirer.prompt([
+        {
+          type: "list",
+          name: "filter",
+          message: "Choose search filter:",
+          choices: ["name", "description"],
+        },
+        { type: "input", name: "value", message: "Enter search value:" },
+      ]);
+      await myOperations.search(searchCriteria.value);
       break;
     case "Stock":
-      console.log("Total furniture count:", stock.getFurnitureCount());
+      console.log("Total furniture count:", myOperations.getCount());
       break;
   }
 }

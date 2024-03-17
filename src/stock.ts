@@ -28,135 +28,135 @@ export class Stock {
   /**
    * Función que usa inquirer para recibir datos de muebles y añadirlos a la db
    */
-  async addFurniture() {
-    const furnitureData = await inquirer.prompt([
-      { type: "input", name: "name", message: "Enter furniture name:" },
-      {
-        type: "input",
-        name: "description",
-        message: "Enter furniture description:",
-      },
-      { type: "input", name: "material", message: "Enter furniture material:" },
-      {
-        type: "input",
-        name: "dimensions",
-        message: "Enter furniture dimensions:",
-      },
-      { type: "number", name: "price", message: "Enter furniture price:" },
-      { type: "number", name: "quantity", message: "Enter quantity available:" },
+  // async addFurniture() {
+  //   const furnitureData = await inquirer.prompt([
+  //     { type: "input", name: "name", message: "Enter furniture name:" },
+  //     {
+  //       type: "input",
+  //       name: "description",
+  //       message: "Enter furniture description:",
+  //     },
+  //     { type: "input", name: "material", message: "Enter furniture material:" },
+  //     {
+  //       type: "input",
+  //       name: "dimensions",
+  //       message: "Enter furniture dimensions:",
+  //     },
+  //     { type: "number", name: "price", message: "Enter furniture price:" },
+  //     { type: "number", name: "quantity", message: "Enter quantity available:" },
       
-    ]);
-    const furniture: Furniture = {
-      id: Date.now().toString(),
-      ...furnitureData,
-    };
-    this.furniture.push(furniture);
-    this.db
-    .update("furniture", () => this.furniture)
-      .write();
-  }
+  //   ]);
+  //   const furniture: Furniture = {
+  //     id: Date.now().toString(),
+  //     ...furnitureData,
+  //   };
+  //   this.furniture.push(furniture);
+  //   this.db
+  //   .update("furniture", () => this.furniture)
+  //     .write();
+  // }
 
-  /**
-   * Función que usa inquirer para recibir datos de muebles y borrarlos de la db
-   */
-  async deleteFurniture() {
-    const furnitureId = await inquirer.prompt({
-      type: "input",
-      name: "id",
-      message: "Enter furniture ID to delete:",
-    });
-    this.db
-      .update("furniture", (existingFurniture: Furniture[]) => {
-        return existingFurniture.filter((element) => {
-          return element.id !== furnitureId.id;
-        });
-      })
-      .write();
-  }
+  // /**
+  //  * Función que usa inquirer para recibir datos de muebles y borrarlos de la db
+  //  */
+  // async deleteFurniture() {
+  //   const furnitureId = await inquirer.prompt({
+  //     type: "input",
+  //     name: "id",
+  //     message: "Enter furniture ID to delete:",
+  //   });
+  //   this.db
+  //     .update("furniture", (existingFurniture: Furniture[]) => {
+  //       return existingFurniture.filter((element) => {
+  //         return element.id !== furnitureId.id;
+  //       });
+  //     })
+  //     .write();
+  // }
 
-  /**
-   * Función que usa inquirer para actualizar los datos de un mueble
-   */
-  async updateFurniture() {
-    const furnitureId = await inquirer.prompt({
-      type: "input",
-      name: "id",
-      message: "Enter furniture ID to update:",
-    });
-    const newData = await inquirer.prompt([
-      { type: "input", name: "name", message: "Enter new furniture name:" },
-      {
-        type: "input",
-        name: "description",
-        message: "Enter new furniture description:",
-      },
-      {
-        type: "input",
-        name: "material",
-        message: "Enter new furniture material:",
-      },
-      {
-        type: "input",
-        name: "dimensions",
-        message: "Enter new furniture dimensions:",
-      },
-      { type: "number", name: "price", message: "Enter new furniture price:" },
-      { type: "number", name: "quantity", message: "Enter quantity available:" },
-    ]);
-    newData.id = furnitureId.id;
-    this.db
-      .update("furniture", (existingFurniture: Furniture[]) => {
-        existingFurniture.forEach((element, index) => {
-          if (element.id == furnitureId.id) existingFurniture[index] = newData;
-        });
-        return existingFurniture;
-      })
-      .write();
-  }
+  // /**
+  //  * Función que usa inquirer para actualizar los datos de un mueble
+  //  */
+  // async updateFurniture() {
+  //   const furnitureId = await inquirer.prompt({
+  //     type: "input",
+  //     name: "id",
+  //     message: "Enter furniture ID to update:",
+  //   });
+  //   const newData = await inquirer.prompt([
+  //     { type: "input", name: "name", message: "Enter new furniture name:" },
+  //     {
+  //       type: "input",
+  //       name: "description",
+  //       message: "Enter new furniture description:",
+  //     },
+  //     {
+  //       type: "input",
+  //       name: "material",
+  //       message: "Enter new furniture material:",
+  //     },
+  //     {
+  //       type: "input",
+  //       name: "dimensions",
+  //       message: "Enter new furniture dimensions:",
+  //     },
+  //     { type: "number", name: "price", message: "Enter new furniture price:" },
+  //     { type: "number", name: "quantity", message: "Enter quantity available:" },
+  //   ]);
+  //   newData.id = furnitureId.id;
+  //   this.db
+  //     .update("furniture", (existingFurniture: Furniture[]) => {
+  //       existingFurniture.forEach((element, index) => {
+  //         if (element.id == furnitureId.id) existingFurniture[index] = newData;
+  //       });
+  //       return existingFurniture;
+  //     })
+  //     .write();
+  // }
 
-  /**
-   * Función que busca según el criterio elegido
-   */
-  private searchFurnitureBy(filter: string, value: string) {
-    const regex = new RegExp(value, "i");
-    return this.db
-      .get("furniture")
-      .value()
-      .filter((furniture) => {
-        return regex.test(furniture.name) || regex.test(furniture.description);
-      });
-  }
+  // /**
+  //  * Función que busca según el criterio elegido
+  //  */
+  // private searchFurnitureBy(filter: string, value: string) {
+  //   const regex = new RegExp(value, "i");
+  //   return this.db
+  //     .get("furniture")
+  //     .value()
+  //     .filter((furniture) => {
+  //       return regex.test(furniture.name) || regex.test(furniture.description);
+  //     });
+  // }
 
-  /**
-   * Función que usa inquirer para buscar muebles
-   */
-  async searchFurniture() {
-    const searchCriteria = await inquirer.prompt([
-      {
-        type: "list",
-        name: "filter",
-        message: "Choose search filter:",
-        choices: ["name", "description"],
-      },
-      { type: "input", name: "value", message: "Enter search value:" },
-    ]);
-    const filteredFurniture = this.searchFurnitureBy(
-      searchCriteria.filter,
-      searchCriteria.value,
-    );
-    console.log(filteredFurniture);
-  }
+  // /**
+  //  * Función que usa inquirer para buscar muebles
+  //  */
+  // async searchFurniture() {
+  //   const searchCriteria = await inquirer.prompt([
+  //     {
+  //       type: "list",
+  //       name: "filter",
+  //       message: "Choose search filter:",
+  //       choices: ["name", "description"],
+  //     },
+  //     { type: "input", name: "value", message: "Enter search value:" },
+  //   ]);
+  //   const filteredFurniture = this.searchFurnitureBy(
+  //     searchCriteria.filter,
+  //     searchCriteria.value,
+  //   );
+  //   console.log(filteredFurniture);
+  // }
 
-  /**
-   * Función que devuelve la cantidad de muebles en stock
-   */
-  getFurnitureCount() {
-    return this.furniture.length;
-  }
+  // /**
+  //  * Función que devuelve la cantidad de muebles en stock
+  //  */
+  // getFurnitureCount() {
+  //   return this.furniture.length;
+  // }
 
-  getFurniture() {
-    return this.furniture;
-  }
+  // getFurniture() {
+  //   return this.furniture;
+  // }
   
   /**
    * ----------------------------------------Métodos para los proveedores---------------------------------------------------------
