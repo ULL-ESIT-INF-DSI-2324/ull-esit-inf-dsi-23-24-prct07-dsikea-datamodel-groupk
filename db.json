@@ -16,13 +16,13 @@
       "price": 20
     },
     {
-      "id": "1710682158707",
       "name": "mesa",
       "description": "mesa",
-      "material": "fds",
-      "dimensions": "fas",
-      "price": 10,
-      "quantity": 5
+      "material": "madera",
+      "dimensions": "10",
+      "price": 122,
+      "quantity": 6,
+      "id": "1710698988097"
     }
   ],
   "suppliers": [

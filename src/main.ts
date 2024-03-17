@@ -6,6 +6,7 @@ import { FurnitureOperations } from "./furnitureOperations.js";
 import { Stock } from "./stock.js";
 import { CustomerOperations } from "./customerOperations.js";
 import { SupplierOperations } from "./supplierOperations.js";
+import { exit } from "process";
 
 async function main() {
   const adapter = new FileSync("db.json");
@@ -17,30 +18,35 @@ async function main() {
   const myCustomerOperations = new CustomerOperations(db);
   const mySupplierOperations = new SupplierOperations(db);
 
-  const category = await inquirer.prompt({
-    type: "list",
-    name: "category",
-    message: "Choose category:",
-    choices: ["Furniture", "Customer", "Supplier", "Transactions", "Reports"],
-  });
-
-  switch (category.category) {
-    case "Furniture":
-      // eslint-disable-next-line no-case-declarations
-      await furnitureMenu(myFurnitureOperations);
-      break;
-    case "Customer":
-      await customerMenu(myCustomerOperations);
-      break;
-    case "Supplier":
-      await supplierMenu(mySupplierOperations);
-      break;
-    case "Transactions":
-      await transactionMenu(stock, myCustomerOperations, mySupplierOperations);
-      break;
-    case "Reports":
-      await reportMenu(stock);
-      break;
+  while (true) {
+    const category = await inquirer.prompt({
+      type: "list",
+      name: "category",
+      message: "Choose category:",
+      choices: ["Furniture", "Customer", "Supplier", "Transactions", "Reports", "Exit"],
+    });
+  
+    switch (category.category) {
+      case "Furniture":
+        // eslint-disable-next-line no-case-declarations
+        await furnitureMenu(myFurnitureOperations);
+        break;
+      case "Customer":
+        await customerMenu(myCustomerOperations);
+        break;
+      case "Supplier":
+        await supplierMenu(mySupplierOperations);
+        break;
+      case "Transactions":
+        await transactionMenu(stock, myCustomerOperations, mySupplierOperations);
+        break;
+      case "Reports":
+        await reportMenu(stock);
+        break;
+      case "Exit":
+        process.exit(0);
+        break;
+    }
   }
 }
 
