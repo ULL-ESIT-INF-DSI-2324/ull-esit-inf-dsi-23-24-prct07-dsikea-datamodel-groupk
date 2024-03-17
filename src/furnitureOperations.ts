@@ -38,7 +38,8 @@ export class FurnitureOperations implements Operations {
     const filteredFurniture = this.searchBy(
       searchCriteria
     );
-    console.log(filteredFurniture);
+    //console.log(filteredFurniture);
+    return filteredFurniture;
   }
 
   searchBy(value: string) {

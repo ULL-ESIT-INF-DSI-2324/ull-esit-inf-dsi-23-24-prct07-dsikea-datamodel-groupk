@@ -22,44 +22,42 @@ describe('Furniture', () => {
         };
       });
 
-    it('should have an id', () => {
+    it ('intance of Furniture', () => {
+        expect(furniture1).to.be.an.instanceOf(Object);
         expect(furniture1).to.be.an('object');
+    });
+
+    it('should have an id', () => {
         expect(furniture1).to.have.property('id');
         expect(furniture1.id).to.equal('1');
     });
 
     it('should have a name', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('name');
         expect(furniture1.name).to.equal('Silla');
     });
 
     it('should have a description', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('description');
         expect(furniture1.description).to.equal('Silla Comoda');
     });
 
     it('should have a material', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('material');
         expect(furniture1.material).to.equal('Madera');
     });
 
     it('should have dimensions', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('dimensions');
         expect(furniture1.dimensions).to.equal('20x20x30');
     });
 
     it('should have a price', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('price');
         expect(furniture1.price).to.equal(50);
     });
 
     it('should have a quantity', () => {
-        expect(furniture1).to.be.an('object');
         expect(furniture1).to.have.property('quantity');
         expect(furniture1.quantity).to.equal(10);
     });
