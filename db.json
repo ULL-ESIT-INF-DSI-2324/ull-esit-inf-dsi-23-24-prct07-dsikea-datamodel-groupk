@@ -31,6 +31,12 @@
       "name": "Supplier1",
       "contact": "contact1",
       "address": "address1"
+    },
+    {
+      "name": "supplier3",
+      "contact": "contact3",
+      "address": "address3",
+      "id": "1710686701445"
     }
   ],
   "customers": [
@@ -39,6 +45,12 @@
       "name": "Customer1",
       "contact": "contact1",
       "address": "address1"
+    },
+    {
+      "name": "customer3",
+      "contact": "contact3",
+      "address": "address3",
+      "id": "1710685255626"
     }
   ],
   "salesTransactions": [
