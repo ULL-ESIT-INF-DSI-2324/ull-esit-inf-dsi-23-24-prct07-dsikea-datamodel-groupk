@@ -11,5 +11,4 @@ export interface Customer {
 export interface Purchase {
   customerId: string;
   amount: number;
-  // Otros campos relevantes para la compra
 }
