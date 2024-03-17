@@ -1,4 +1,14 @@
 /* eslint-disable no-case-declarations */
+/**
+ * @module main
+ * @summary Modulo Main
+ * @description
+ * El módulo main es el punto de entrada principal de la aplicación, encargado de gestionar las operaciones relacionadas con muebles, clientes, proveedores, transacciones y generación de informes. La función main inicializa la base de datos utilizando Lowdb y configura las opciones predeterminadas en caso de que no existan datos previos. Luego, instancia los objetos necesarios para realizar operaciones en muebles, clientes y proveedores.   
+ * La ejecución principal ocurre dentro de un bucle infinito que presenta un menú de opciones al usuario, permitiéndole seleccionar entre diferentes categorías como Muebles, Clientes, Proveedores, Transacciones, Informes o Salir. Dependiendo de la opción elegida, se activa un conjunto específico de operaciones relacionadas con esa categoría.   
+ * El módulo main es el punto de entrada principal de la aplicación, encargado de gestionar las operaciones relacionadas con muebles, clientes, proveedores, transacciones y generación de informes. La función main inicializa la base de datos utilizando Lowdb y configura las opciones predeterminadas en caso de que no existan datos previos. Luego, instancia los objetos necesarios para realizar operaciones en muebles, clientes y proveedores.
+ * La ejecución principal ocurre dentro de un bucle infinito que presenta un menú de opciones al usuario, permitiéndole seleccionar entre diferentes categorías como Muebles, Clientes, Proveedores, Transacciones, Informes o Salir. Dependiendo de la opción elegida, se activa un conjunto específico de operaciones relacionadas con esa categoría.
+ * Para las categorías de Muebles, Clientes y Proveedores, se presentan submenús que ofrecen opciones para agregar, eliminar, buscar o actualizar registros. Para las transacciones, se pueden registrar ventas o compras, y se puede acceder al historial de transacciones. Finalmente, en la categoría de Informes, se pueden generar informes sobre el stock disponible por nombre de mueble o la transacción con el importe más alto.   
+ */
 import inquirer from "inquirer";
 import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
@@ -8,6 +18,10 @@ import { CustomerOperations } from "./customerOperations.js";
 import { SupplierOperations } from "./supplierOperations.js";
 import { exit } from "process";
 
+/**
+ * Función principal
+ * @returns {Promise<void>}
+ */
 async function main() {
   const adapter = new FileSync("db.json");
   const db = lowdb(adapter);
@@ -18,6 +32,10 @@ async function main() {
   const myCustomerOperations = new CustomerOperations(db);
   const mySupplierOperations = new SupplierOperations(db);
 
+  /**
+   * Ciclo principal
+   * @returns {Promise<void>}
+   */
   while (true) {
     const category = await inquirer.prompt({
       type: "list",
@@ -26,6 +44,10 @@ async function main() {
       choices: ["Furniture", "Customer", "Supplier", "Transactions", "Reports", "Exit"],
     });
   
+    /**
+     * Switch para manejar las opciones del menú
+     * @returns {Promise<void>}
+     */
     switch (category.category) {
       case "Furniture":
         // eslint-disable-next-line no-case-declarations
@@ -50,6 +72,12 @@ async function main() {
   }
 }
 
+/**
+ * Menú de muebles
+ * @param {FurnitureOperations} myOperations - Operaciones de muebles
+ * @returns {Promise<void>}
+ * 
+ */
 async function furnitureMenu(myOperations: FurnitureOperations) {
   const operation = await inquirer.prompt({
     type: "list",
@@ -63,6 +91,10 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
       "Stock"
     ],
   });
+  /**
+   * Switch para manejar las opciones del menú
+   * @returns {Promise<void>}
+   */
   switch (operation.operation) {
     case "Add Furniture":
       const furnitureData = await inquirer.prompt([
@@ -141,6 +173,12 @@ async function furnitureMenu(myOperations: FurnitureOperations) {
   }
 }
 
+/**
+ * Menú de clientes
+ * @param {CustomerOperations} myOperations - Operaciones de clientes
+ * @returns {Promise<void>}
+ * 
+ */
 async function customerMenu(myOperations: CustomerOperations) {
   const operation = await inquirer.prompt({
     type: "list",
@@ -154,6 +192,10 @@ async function customerMenu(myOperations: CustomerOperations) {
     ],
   });
 
+  /**
+   * Switch para manejar las opciones del menú
+   * @returns {Promise<void>}
+   */
   switch (operation.operation) {
     case "Add Customer":
       const customerData = await inquirer.prompt([
@@ -202,6 +244,12 @@ async function customerMenu(myOperations: CustomerOperations) {
   }
 }
 
+/**
+ * Menú de proveedores
+ * @param {SupplierOperations} myOperations - Operaciones de proveedores
+ * @returns {Promise<void>}
+ * 
+ */
 async function supplierMenu(myOperations: SupplierOperations) {
   const operation = await inquirer.prompt({
     type: "list",
@@ -215,6 +263,11 @@ async function supplierMenu(myOperations: SupplierOperations) {
     ],
   });
 
+  /**
+   * Switch para manejar las opciones del menú
+   * @returns {Promise<void>}
+   * 
+   */
   switch (operation.operation) {
     case "Add Supplier":
       const supplierData = await inquirer.prompt([
@@ -272,6 +325,12 @@ async function supplierMenu(myOperations: SupplierOperations) {
 
 }
 //-------------------TRANSACCIONES----------------------
+/**
+ * Menú de transacciones
+ * @param stock 
+ * @param myCustomerOperations 
+ * @param mySupplierOperations 
+ */
 async function transactionMenu(stock: Stock, myCustomerOperations: CustomerOperations, mySupplierOperations: SupplierOperations) {
   const transactionType = await inquirer.prompt({
     type: "list",
@@ -280,6 +339,10 @@ async function transactionMenu(stock: Stock, myCustomerOperations: CustomerOpera
     choices: ["Sale", "Purchase", "History"],
   });
 
+  /**
+   * Switch para manejar las opciones del menú
+   * @returns {Promise<void>}
+   */
   switch (transactionType.transactionType) {
     case "Sale": {
       const customers = myCustomerOperations.getCustomers();
@@ -322,6 +385,12 @@ async function transactionMenu(stock: Stock, myCustomerOperations: CustomerOpera
 }
 
 //-------------------REPORTES----------------------
+/**
+ * Menú de reportes
+ * @param stock 
+ * @returns {Promise<void>}
+ * 
+ */
 async function reportMenu(stock: Stock) {
   const reportType = await inquirer.prompt({
     type: "list",
@@ -333,6 +402,11 @@ async function reportMenu(stock: Stock) {
     ],
   });
 
+  /**
+   * Switch para manejar las opciones del menú
+   * @returns {Promise<void>}
+   * 
+   */
   switch (reportType.reportType) {
     case "Available Stock by Furniture Name":
       await generateAvailableStockByFurnitureNameReport(stock);
@@ -345,6 +419,12 @@ async function reportMenu(stock: Stock) {
   }
 }
 
+/**
+ * Generar reporte de stock disponible por nombre de mueble
+ * @param stock 
+ * @returns {Promise<void>}
+ * 
+ */
 async function generateAvailableStockByFurnitureNameReport(stock: Stock) {
   const name = await inquirer.prompt({
     type: "input",
