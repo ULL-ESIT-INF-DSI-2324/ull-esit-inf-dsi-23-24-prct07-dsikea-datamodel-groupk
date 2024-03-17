@@ -131,8 +131,6 @@ export class Stock {
       // Ordenar las transacciones por el importe total en orden descendente
       const sortedTransactions = salesTransactions.sales.sort((a, b) => b.price - a.price);
       return sortedTransactions[0];
-    } else {
-      return null;
     }
   }
 
