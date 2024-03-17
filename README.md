@@ -20,7 +20,7 @@ Se nos pide que definamos interfaces para manejar los distintos muebles, proveed
 
 ## Interfaces
 
-A la hora de definir las interfaces, nos centramos el los 3 agentes que tenemos en nuestro sistema de información. En primer lugar, los muebles. Para ello desarollamos la interfaz Furniture, con información básica sobre el producto.
+A la hora de definir las interfaces, nos centramos en los 3 agentes que tenemos en nuestro sistema de información. En primer lugar, los muebles. Para ello desarollamos la interfaz Furniture, con información básica sobre el producto.
 
 ```
 export interface Furniture {
