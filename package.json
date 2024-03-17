@@ -37,6 +37,7 @@
         "@types/node": "^20.11.28",
         "lodash": "^4.17.21",
         "lowdb": "^1.0.0",
-        "prompt-sync": "^4.2.0"
+        "prompt-sync": "^4.2.0",
+        "sinon": "^17.0.1"
     }
 }

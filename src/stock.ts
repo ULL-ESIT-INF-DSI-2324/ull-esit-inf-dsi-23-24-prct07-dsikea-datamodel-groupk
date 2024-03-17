@@ -153,6 +153,11 @@ export class Stock {
   getFurnitureCount() {
     return this.furniture.length;
   }
+
+  getFurniture() {
+    return this.furniture;
+  }
+  
   /**
    * ----------------------------------------Métodos para los proveedores---------------------------------------------------------
    */
