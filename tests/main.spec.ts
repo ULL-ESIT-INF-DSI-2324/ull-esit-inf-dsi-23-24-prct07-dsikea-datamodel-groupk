@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { Stock } from "../src/stock.js";
+import { main } from "../src/main.js";
 import FileSync from "lowdb/adapters/FileSync.js";
 import { FurnitureOperations } from "../src/furnitureOperations.js";
 import { SupplierOperations } from "../src/supplierOperations.js";
@@ -11,4 +11,3 @@ import { Customer } from "../src/interfaces/customer.js";
 import * as lowdb from "lowdb";
 import low from "lowdb";
 import inquirer from "inquirer";
-
