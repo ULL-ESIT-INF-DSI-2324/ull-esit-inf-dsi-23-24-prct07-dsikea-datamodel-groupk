@@ -1,7 +1,7 @@
 {
   "salesTransactions": [
     {
-      "date": "2024-03-17T18:05:13.696Z",
+      "date": "2024-03-17T19:38:28.279Z",
       "customer": {
         "id": "56",
         "name": " Sandra",
@@ -31,7 +31,52 @@
       "price": 150
     }
   ],
-  "purchaseTransactions": [],
+  "purchaseTransactions": [
+    {
+      "id": "1",
+      "supplier": {
+        "id": "99",
+        "name": "Maria",
+        "contact": "mariasupplier@example.com",
+        "address": "Santa Ursula, Tenerife"
+      },
+      "furniture": [
+        {
+          "id": "1",
+          "name": "Silla",
+          "description": "Silla Comoda",
+          "material": "Madera",
+          "dimensions": "20x20x30",
+          "price": 50,
+          "quantity": 5
+        }
+      ],
+      "totalPrice": 250,
+      "date": "2024-03-17T19:38:28.199Z"
+    },
+    {
+      "id": "2",
+      "supplier": {
+        "id": "96",
+        "name": "Carlos",
+        "contact": "carlossupplier2@example.com",
+        "address": "Santa Cruz de la Palma"
+      },
+      "furniture": [
+        {
+          "id": "2",
+          "name": "Mesa",
+          "description": "Mesa grande",
+          "material": "Madera",
+          "dimensions": "100x50x75",
+          "price": 100,
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 200,
+      "date": "2024-03-17T19:38:28.199Z"
+    }
+  ],
   "furniture": [
     {
       "id": "1",

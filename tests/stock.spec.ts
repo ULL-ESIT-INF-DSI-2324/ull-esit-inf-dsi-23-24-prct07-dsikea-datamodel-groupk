@@ -20,6 +20,8 @@ db.defaults({ salesTransactions: [], purchaseTransactions: [], furniture: [], cu
 initializeCustomers(db);
 initializeSuppliers(db);
 initializeFurniture(db);
+initializePurchaseTransactions(db);
+
 const stock = new Stock(db);
 
 describe('Stock', () => {
@@ -53,7 +55,27 @@ describe('Stock', () => {
     expect(salesTransactions[0].furniture.map(f => f.name)).to.have.members(furnitureNames);
 });
 
-  
+  //PRUEBA PARA EL METODO DE REGISTRAR COMPRA
+
+
+  // PRUEBA INFORMES
+
+  it('should get transaction with highest amount', async () => {
+    const highestTransaction = await stock.getTransactionWithHighestAmount();
+    expect(highestTransaction).to.not.be.null;
+    expect(highestTransaction).to.have.property('price');
+    expect(highestTransaction.price).to.be.a('number');
+});
+
+it('should get available stock by furniture name', async () => {
+  const furnitureName = 'Silla'; // Assuming 'Silla' exists in the database
+  const availableStock = await stock.getAvailableStockByFurnitureName(furnitureName);
+  expect(availableStock).to.not.be.null;
+  expect(availableStock.name).to.equal(furnitureName);
+  expect(availableStock.quantity).to.be.greaterThan(0);
+});
+
+
 
 });
 });
@@ -85,4 +107,29 @@ function initializeFurniture(db) {
       { id: '2', name: 'Mesa', description: 'Mesa grande', material: 'Madera', dimensions: '100x50x75', price: 100, quantity: 5 }
   ];
   db.set('furniture', furniture).write();
+}
+
+// Función para inicializar transacciones de venta
+function initializePurchaseTransactions(db) {
+  const purchaseTransactions = [
+      {
+          id: '1',
+          supplier: { id: '99', name: 'Maria', contact: 'mariasupplier@example.com', address: 'Santa Ursula, Tenerife' },
+          furniture: [
+              { id: '1', name: 'Silla', description: 'Silla Comoda', material: 'Madera', dimensions: '20x20x30', price: 50, quantity: 5 }
+          ],
+          totalPrice: 250,
+          date: new Date()
+      },
+      {
+          id: '2',
+          supplier: { id: '96', name: 'Carlos', contact: 'carlossupplier2@example.com', address: 'Santa Cruz de la Palma' },
+          furniture: [
+              { id: '2', name: 'Mesa', description: 'Mesa grande', material: 'Madera', dimensions: '100x50x75', price: 100, quantity: 2 }
+          ],
+          totalPrice: 200,
+          date: new Date()
+      }
+  ];
+  db.set('purchaseTransactions', purchaseTransactions).write();
 }
