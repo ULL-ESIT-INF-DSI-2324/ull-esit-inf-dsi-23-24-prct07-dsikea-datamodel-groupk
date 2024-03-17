@@ -1,0 +1,40 @@
+{
+  "customers": [
+    {
+      "id": "1",
+      "name": "Antonio",
+      "contact": "antoniomr@example.com",
+      "address": "6, La Laguna"
+    },
+    {
+      "id": "3",
+      "name": "Alicia Cruz",
+      "contact": "alicia.j@example.com",
+      "address": "Los Llanos de Aridane"
+    },
+    {
+      "id": "8",
+      "name": "Pedro",
+      "contact": "pedrope@example.com",
+      "address": "La Orotava"
+    },
+    {
+      "id": "9",
+      "name": "Sandra",
+      "contact": "sandr78@example.com",
+      "address": "Santa Cruz de la Palma"
+    },
+    {
+      "id": "10",
+      "name": "Laura",
+      "contact": "lauuu@example.com",
+      "address": "San Cristóbal de La Laguna"
+    },
+    {
+      "id": "456",
+      "name": "Cristina",
+      "contact": "criss@example.com",
+      "address": "Santa Úrsula"
+    }
+  ]
+}

@@ -16,7 +16,7 @@ describe('FurnitureOperations', () => {
 
     before(() => {
 
-        const adapter = new FileSync("db-test.json");
+        const adapter = new FileSync("tests/db-test/furniture-test.json");
         const db = low(adapter);
         const stock = new Stock(db);
         db.setState({ furniture: [] }).write();

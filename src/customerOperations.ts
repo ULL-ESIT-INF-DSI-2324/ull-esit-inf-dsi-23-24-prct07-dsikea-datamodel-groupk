@@ -40,11 +40,9 @@ export class CustomerOperations implements Operations {
   }
 
   async search(searchCriteria: string) {
-    const filteredcustomer = this.searchBy(
-      searchCriteria
-    );
-    console.log(filteredcustomer);
-  }
+    const filteredCustomers = this.searchBy(searchCriteria);
+    return filteredCustomers;
+}
 
   searchBy(value: string) {
     const regex = new RegExp(value, "i");

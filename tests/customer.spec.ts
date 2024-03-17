@@ -1,4 +1,3 @@
-/*
 import { describe, it } from "mocha";
 import { expect } from "chai";
 import { Stock } from "../src/stock.js";
@@ -43,4 +42,3 @@ describe('Customer', () => {
       expect(customer1.address).to.equal('123 La Laguna');
     });
   });
-  */
