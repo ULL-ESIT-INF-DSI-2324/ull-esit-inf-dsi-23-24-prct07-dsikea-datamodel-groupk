@@ -44,7 +44,7 @@ export interface Customer {
 }
 ```
 
-Por último, la interfaz Supplier que de igual manera guarda datos de ese provedoor en concreto.
+La interfaz Supplier que de igual manera guarda datos de ese provedoor en concreto.
 
 ```
 export interface Supplier {
@@ -55,99 +55,87 @@ export interface Supplier {
 }
 ```
 
+Por último, tenemos la interfaz Operations, que define las operaciones que deben implementarse para muebles, clientes y proveedores:
+```
+export interface Operations {
+  add(info: object);
+  delete(id: string);
+  update(newData: object);
+  search(value: string);
+  searchBy(filter: string, value: string);
+}
+```
+
 Con esto terminaríamos las interfaces que hemos empleado, ahora nos centraremos en cómo gestionaremos nuestro sistema de información
+
+## Clases de operaciones
+Esta clase es la encargada de implementar todas las operaciones respectivas a muebles que podemos realizar en nuestro sistema:
+```
+export class FurnitureOperations implements Operations {
+  private furnitures: Furniture[]; 
+  constructor(private db: lowdb.LowdbSync<any>) {
+    this.furnitures = db.get("furniture").value();
+  }
+
+  async add(furnitureData: Furniture) {
+    this.furnitures.push(furnitureData);
+    this.db
+    .update("furniture", () => this.furnitures)
+      .write();
+  }
+
+  async delete(id: string) {
+    this.furnitures = this.furnitures.filter((element) => {
+      return element.id !== id;
+    });
+    this.db
+      .update("furniture", () => this.furnitures)
+        .write();
+  }
+
+  async update(newData: Furniture) {
+    this.furnitures.forEach((element, index) => {
+      if(element.id === newData.id) this.furnitures[index] = newData;
+    });
+    this.db
+      .update("furniture", () => this.furnitures)
+      .write();
+  }
+
+  async search(searchCriteria: string, isTestEnvironment: boolean = false) {
+    const filteredSupplier = this.searchBy(searchCriteria);
+    if (!isTestEnvironment) {
+        console.log(filteredSupplier);
+    }
+    return filteredSupplier;
+}
+
+  searchBy(value: string) {
+    const regex = new RegExp(value, "i");
+    return this.db
+      .get("furniture")
+      .value()
+      .filter((furniture) => {
+        return regex.test(furniture.name) || regex.test(furniture.description);
+      });
+  }
+
+  getCount() {
+    return this.furnitures.length;
+  }
+
+  getFurniture() {
+    return this.furnitures;
+  }
+}
+```
+
+Lo primero que se hace es almacenar en un array los muebles que se encuentran en la base de datos, de esta manera podemos tratar la información de una mejor manera, pudiéndonos aprovechar de los métodos que ofrece el propio lenguaje. A partir de este array, se implementan el resto de operaciones, actuando directamente sobre el mismo y luego actualizando la base de datos.
+
+Nos hemos centrado en la clase `FurnitureOperations`, pero las dos restantes `SupplierOperations`y `CustomerOperations`, implementan la interfaz `Operation` de manera muy similar.
 
 ## Clase Stock
 
-Ya metiéndonos en nuestra clase gestora, primero comentaremos la organización de la misma. Esta contiene, al principio, una instancia de cada interfaz, con la que se trabajará en las distintas funciones. También cuenta con una constructor de la base de datos, empleando Lowdb. Partiendo de esto, hemos decidido separar los métodos en 3 partes: muebles, clientes y proveedores.
-
-Si ahondamos en los métodos, son 5 funciones por cada agente: add, delete, search, searchby y update. El primero consiste en añadir un elemento a la base de datos, haciendo uso de inquirer:
-
-```
-async addFurniture() {
-    const furnitureData = await inquirer.prompt([
-      { type: "input", name: "name", message: "Enter furniture name:" },
-      {
-        type: "input",
-        name: "description",
-        message: "Enter furniture description:",
-      },
-      { type: "input", name: "material", message: "Enter furniture material:" },
-      {
-        type: "input",
-        name: "dimensions",
-        message: "Enter furniture dimensions:",
-      },
-      { type: "number", name: "price", message: "Enter furniture price:" },
-    ]);
-    const furniture: Furniture = {
-      id: Date.now().toString(),
-      ...furnitureData,
-    };
-    this.furniture.push(furniture);
-    this.db
-      .update("furniture", (existingFurniture: Furniture[]) => {
-        return [...existingFurniture, furniture];
-      })
-      .write();
-  }
-```
-
-El siguiente seía ahora el de eliminar datos de esa db, usando también inquirer.
-
-```
-async deleteFurniture() {
-  const furnitureId = await inquirer.prompt({
-    type: "input",
-    name: "id",
-    message: "Enter furniture ID to delete:",
-  });
-  this.db
-    .update("furniture", (existingFurniture: Furniture[]) => {
-      return existingFurniture.filter((element) => {
-        return element.id !== furnitureId.id;
-      });
-    })
-    .write();
-}
-```
-
-A continuación, el método search, que usa inquirer para pasarle el filtro de búsqueda por consola.
-
-```
-async searchFurniture() {
-    const searchCriteria = await inquirer.prompt([
-      {
-        type: "list",
-        name: "filter",
-        message: "Choose search filter:",
-        choices: ["name", "description"],
-      },
-      { type: "input", name: "value", message: "Enter search value:" },
-    ]);
-    const filteredFurniture = this.searchFurnitureBy(
-      searchCriteria.filter,
-      searchCriteria.value,
-    );
-    console.log(filteredFurniture);
-  }
-```
-
-El siguiente es el de searchby, que realiza ya la búsqueda con los valores obtenidos en la función anterior.
-
-```
-private searchFurnitureBy(filter: string, value: string) {
-  const regex = new RegExp(value, "i");
-  return this.db
-    .get("furniture")
-    .value()
-    .filter((furniture) => {
-      return regex.test(furniture.name) || regex.test(furniture.description);
-    });
-}
-```
-
-Esos tres métodos serán iguales prácticamente para nuestros 3 agentes del sistema de información.
 
 ## Conclusiones
 
