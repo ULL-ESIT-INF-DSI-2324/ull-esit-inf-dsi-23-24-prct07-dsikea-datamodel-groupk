@@ -7,7 +7,7 @@
       "material": "madera",
       "dimensions": "100x100",
       "price": 20,
-      "quantity": 14
+      "quantity": 13
     },
     {
       "id": "1710625220756",
@@ -55,12 +55,12 @@
   ],
   "salesTransactions": [
     {
-      "date": "2024-03-16T21:39:33.340Z",
+      "date": "2024-03-17T17:40:31.358Z",
       "customer": {
-        "id": "1710625008007",
-        "name": "Customer1",
-        "contact": "contact1",
-        "address": "address1"
+        "name": "customer3",
+        "contact": "contact3",
+        "address": "address3",
+        "id": "1710685255626"
       },
       "furniture": [
         {
@@ -70,7 +70,7 @@
           "material": "madera",
           "dimensions": "100x100",
           "price": 20,
-          "quantity": 14
+          "quantity": 13
         }
       ],
       "price": 20

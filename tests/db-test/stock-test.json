@@ -1,0 +1,83 @@
+{
+  "salesTransactions": [
+    {
+      "date": "2024-03-17T18:05:13.696Z",
+      "customer": {
+        "id": "56",
+        "name": " Sandra",
+        "contact": "Sandra@example.com",
+        "address": "Santa Cruz de la Palma"
+      },
+      "furniture": [
+        {
+          "id": "1",
+          "name": "Silla",
+          "description": "Silla Comodda",
+          "material": "Madera",
+          "dimensions": "20x20x30",
+          "price": 50,
+          "quantity": 9
+        },
+        {
+          "id": "2",
+          "name": "Mesa",
+          "description": "Mesa grande",
+          "material": "Madera",
+          "dimensions": "100x50x75",
+          "price": 100,
+          "quantity": 4
+        }
+      ],
+      "price": 150
+    }
+  ],
+  "purchaseTransactions": [],
+  "furniture": [
+    {
+      "id": "1",
+      "name": "Silla",
+      "description": "Silla Comodda",
+      "material": "Madera",
+      "dimensions": "20x20x30",
+      "price": 50,
+      "quantity": 9
+    },
+    {
+      "id": "2",
+      "name": "Mesa",
+      "description": "Mesa grande",
+      "material": "Madera",
+      "dimensions": "100x50x75",
+      "price": 100,
+      "quantity": 4
+    }
+  ],
+  "customers": [
+    {
+      "id": "56",
+      "name": " Sandra",
+      "contact": "Sandra@example.com",
+      "address": "Santa Cruz de la Palma"
+    },
+    {
+      "id": "45",
+      "name": "Cristina",
+      "contact": "Cristina@example.com",
+      "address": "San Cristóbal de La Laguna"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "99",
+      "name": "Maria",
+      "contact": "mariasupplier@example.com",
+      "address": "Santa Ursula, Tenerife"
+    },
+    {
+      "id": "96",
+      "name": "Carlos",
+      "contact": "carlossupplier2@example.com",
+      "address": "Santa Cruz de la Palma"
+    }
+  ]
+}

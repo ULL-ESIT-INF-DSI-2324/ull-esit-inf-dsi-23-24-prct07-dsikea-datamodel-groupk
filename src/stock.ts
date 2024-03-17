@@ -28,9 +28,12 @@ export class Stock {
     const soldFurniture: Furniture[] = [];
     let totalPrice = 0;
   
+    // Obtener la lista completa de muebles de la base de datos
+    const allFurniture = this.db.get("furniture").value();
+  
     // Verificar si los muebles están disponibles en el stock
     for (const furnitureName of furnitureNames) {
-      const furniture = this.db.get("furniture").value().furniture.find((f) => f.name === furnitureName);
+      const furniture = allFurniture.find((f) => f.name === furnitureName);
       if (furniture && furniture.quantity > 0) {
         soldFurniture.push(furniture);
         totalPrice += furniture.price;
@@ -70,37 +73,33 @@ export class Stock {
   // Método para registrar una compra a un proveedor
   async registerPurchase(supplier: Supplier) {
     const purchasedFurnitureData = await inquirer.prompt([
-      { type: "input", name: "name", message: "Enter furniture name:" },
-      { type: "number", name: "quantity", message: "Enter quantity purchased:" },
-      { type: "number", name: "price", message: "Enter purchase price per unit:" },
+        { type: "input", name: "name", message: "Enter furniture name:" },
+        { type: "number", name: "quantity", message: "Enter quantity purchased:" },
+        { type: "number", name: "price", message: "Enter purchase price per unit:" },
     ]);
 
     const purchasedFurniture: Furniture = {
-      id: Date.now().toString(),
-      ...purchasedFurnitureData,
+        id: Date.now().toString(),
+        ...purchasedFurnitureData,
     };
 
-    const existingFurniture = this.db.get("furniture").value().furniture.find((f) => f.name === purchasedFurniture.name);
-    if (existingFurniture) {
-      existingFurniture.quantity += purchasedFurniture.quantity;
-    } else {
-      this.db.update("furniture", (existingFurniture: Furniture[]) =>
-      [existingFurniture, purchasedFurniture]);
-    }
+    const furnitureData = this.db.get("furniture").value();
+    furnitureData.push(purchasedFurniture);
+    this.db.set("furniture", furnitureData).write();
 
     const purchaseTransaction = {
-      date: new Date(),
-      supplier,
-      furniture: purchasedFurniture,
-      totalPrice: purchasedFurniture.quantity * purchasedFurniture.price,
+        date: new Date(),
+        supplier,
+        furniture: purchasedFurniture,
+        totalPrice: purchasedFurniture.quantity * purchasedFurniture.price,
     };
 
     this.db.update("purchaseTransactions", (transactions: any[]) => {
-      if (!transactions) {
-        transactions = [];
-      }
-      transactions.push(purchaseTransaction);
-      return transactions;
+        if (!transactions) {
+            transactions = [];
+        }
+        transactions.push(purchaseTransaction);
+        return transactions;
     }).write();
 }
   
