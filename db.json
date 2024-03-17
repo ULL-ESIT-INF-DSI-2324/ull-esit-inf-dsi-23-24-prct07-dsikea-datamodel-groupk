@@ -23,6 +23,159 @@
       "price": 122,
       "quantity": 6,
       "id": "1710698988097"
+    },
+    {
+      "name": "Silla desmontable",
+      "description": "Silla desmontable grande",
+      "material": "madera",
+      "dimensions": "20x40x50",
+      "price": 30,
+      "quantity": 13,
+      "id": "1710706773572"
+    },
+    {
+      "name": "Silla con respaldo",
+      "description": "Silla con respaldo alto",
+      "material": "madera",
+      "dimensions": "100x150x150",
+      "price": 45,
+      "quantity": 7,
+      "id": "1710706816721"
+    },
+    {
+      "name": "Silla con respaldo bajo",
+      "description": "Silla con respaldo bajo",
+      "material": "acero",
+      "dimensions": "120x90x150",
+      "price": 67,
+      "quantity": 9,
+      "id": "1710706859004"
+    },
+    {
+      "name": "Silla plegable",
+      "description": "Silla plegable ligera",
+      "material": "madera",
+      "dimensions": "30x40x70",
+      "price": 24,
+      "quantity": 14,
+      "id": "1710706893343"
+    },
+    {
+      "name": "Mesa comedor",
+      "description": "Mesa comedor grande",
+      "material": "madera",
+      "dimensions": "300x100x100",
+      "price": 120,
+      "quantity": 8,
+      "id": "1710706941668"
+    },
+    {
+      "name": "Mesa de estudio",
+      "description": "Mesa de estudio L",
+      "material": "cristal",
+      "dimensions": "200x100x90",
+      "price": 89,
+      "quantity": 8,
+      "id": "1710706980103"
+    },
+    {
+      "name": "Mesa cocina",
+      "description": "Mesa cocina rectangular",
+      "material": "madera",
+      "dimensions": "200x120x100",
+      "price": 67,
+      "quantity": 5,
+      "id": "1710707012338"
+    },
+    {
+      "name": "Sofa relax",
+      "description": "sofa 3 plazas",
+      "material": "piel",
+      "dimensions": "300x200x100",
+      "price": 350,
+      "quantity": 4,
+      "id": "1710707068773"
+    },
+    {
+      "name": "Sofa modular",
+      "description": "Sofa modular cojines intercambiables",
+      "material": "cuero",
+      "dimensions": "200x100x100",
+      "price": 145,
+      "quantity": 8,
+      "id": "1710707107533"
+    },
+    {
+      "name": "Armario ropero",
+      "description": "Armario ropero de dos puertas",
+      "material": "madera",
+      "dimensions": "200x150x100",
+      "price": 57,
+      "quantity": 8,
+      "id": "1710707144949"
+    },
+    {
+      "name": "Armario zapatero",
+      "description": "Armario zapatero con estantes ajustables",
+      "material": "madera",
+      "dimensions": "250x190x100",
+      "price": 67,
+      "quantity": 9,
+      "id": "1710707176066"
+    },
+    {
+      "name": "Armario zapatero grande",
+      "description": "Armario zapatero con estantes ajustables",
+      "material": "madera",
+      "dimensions": "350x190x100",
+      "price": 87,
+      "quantity": 9,
+      "id": "1715907176066"
+    },
+    {
+      "name": "Armario ropero pequeño",
+      "description": "Armario ropero de una puerta",
+      "material": "madera",
+      "dimensions": "200x150x100",
+      "price": 57,
+      "quantity": 8,
+      "id": "1710707144963"
+    },
+    {
+      "name": "Escritorio grande",
+      "description": "Escritorio grande",
+      "material": "madera",
+      "dimensions": "200x100x150",
+      "price": 45,
+      "quantity": 8,
+      "id": "1710707289285"
+    },
+    {
+      "name": "Escritorio pequeño",
+      "description": "Escritorio pequeño",
+      "material": "madera",
+      "dimensions": "150x100x150",
+      "price": 35,
+      "quantity": 8,
+      "id": "1710707285695"
+    },
+    {
+      "name": "Escritorio mediano",
+      "description": "Escritorio mediano",
+      "material": "madera",
+      "dimensions": "180x100x150",
+      "price": 65,
+      "quantity": 8,
+      "id": "1710765289285"
+    },
+    {
+      "name": "Escritorio cristal",
+      "description": "Escritorio cristal templado",
+      "material": "cristal",
+      "dimensions": "180x100x150",
+      "price": 95,
+      "quantity": 13,
+      "id": "1710765289725"
     }
   ],
   "suppliers": [
@@ -36,7 +189,49 @@
       "name": "supplier3",
       "contact": "contact3",
       "address": "address3",
-      "id": "1710686701445"
+      "id": "1710682501445"
+    },
+    {
+      "name": "supplier4",
+      "contact": "contact4",
+      "address": "address4",
+      "id": "1715286701446"
+    },
+    {
+      "name": "supplier5",
+      "contact": "contact5",
+      "address": "address5",
+      "id": "1710681401447"
+    },
+    {
+      "name": "supplier6",
+      "contact": "contact6",
+      "address": "address6",
+      "id": "1711486701448"
+    },
+    {
+      "name": "supplier7",
+      "contact": "contact7",
+      "address": "address7",
+      "id": "1710686701414"
+    },
+    {
+      "name": "supplier8",
+      "contact": "contact8",
+      "address": "address8",
+      "id": "1140686701450"
+    },
+    {
+      "name": "supplier9",
+      "contact": "contact9",
+      "address": "address9",
+      "id": "1710686714451"
+    },
+    {
+      "name": "supplier10",
+      "contact": "contact10",
+      "address": "address10",
+      "id": "1710146701452"
     }
   ],
   "customers": [
@@ -51,6 +246,48 @@
       "contact": "contact3",
       "address": "address3",
       "id": "1710685255626"
+    },
+    {
+      "name": "customer4",
+      "contact": "contact4",
+      "address": "address4",
+      "id": "1710685255627"
+    },
+    {
+      "name": "customer5",
+      "contact": "contact5",
+      "address": "address5",
+      "id": "1710685255628"
+    },
+    {
+      "name": "customer6",
+      "contact": "contact6",
+      "address": "address6",
+      "id": "1710685255629"
+    },
+    {
+      "name": "customer7",
+      "contact": "contact7",
+      "address": "address7",
+      "id": "1710685255630"
+    },
+    {
+      "name": "customer8",
+      "contact": "contact8",
+      "address": "address8",
+      "id": "1710685255631"
+    },
+    {
+      "name": "customer9",
+      "contact": "contact9",
+      "address": "address9",
+      "id": "1710685255632"
+    },
+    {
+      "name": "customer10",
+      "contact": "contact10",
+      "address": "address10",
+      "id": "1710685255633"
     }
   ],
   "salesTransactions": [
